@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('project_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id');
-            $table->string('url');
+            $table->string('path');
+            $table->string('size');
+            $table->string('mimetype');
+            $table->string('disk');
             $table->timestamps();
         });
     }

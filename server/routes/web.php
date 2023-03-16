@@ -16,4 +16,17 @@ use \Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+
+    Route::group([
+        'as' => 'home.',
+        'prefix' => 'home',
+    ], function() {
+        Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
+        Route::post('/project/create', [\App\Http\Controllers\ProjectController::class, 'store'])->name('createProject');
+        Route::put('/project/update/{id}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('updateProject');
+        Route::delete('/project/delete/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('deleteProject');
+    });
+

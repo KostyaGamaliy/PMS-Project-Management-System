@@ -1,5 +1,3 @@
-
-
     <div class="modal fade" id="updateProjectModal{{ $project->id }}" tabindex="-1" aria-labelledby="updateProjectModal"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -14,7 +12,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="d-flex justify-content-center mb-3 border-">
-                        <img src="{{ url('storage/' . $project->preview_image) }}" class="card-img-top rounded-2"
+                        <img src="{{ url('storage/' . ($project->preview_image == null ? 'images/default-img-for-project.jpg' : $project->preview_image)) }}" class="card-img-top rounded-2"
                              style="width: 286px; height: 10rem" alt="none image">
                     </div>
                     <input

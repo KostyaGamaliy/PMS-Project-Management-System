@@ -30,3 +30,5 @@ Auth::routes();
         Route::delete('/project/delete/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('deleteProject');
     });
 
+    Route::post('updateLastModal', [\App\Http\Controllers\HomeController::class, 'updateLastModal'])->name('home.updateLastModal');
+

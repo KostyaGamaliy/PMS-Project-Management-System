@@ -6,6 +6,7 @@
     use App\Http\Requests\UpdateProjectRequest;
     use App\Models\Project;
     use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\DB;
     use Illuminate\Support\Facades\Storage;
     use Illuminate\Support\Facades\Session;
 
@@ -36,7 +37,7 @@
             //dd($request->file());
             $dataProject = $request->validated();
 
-            $dataProject['preview_image'] = Storage::disk('public')->put('/images', $dataProject['preview_image']);
+            $dataProject['preview_image'] = Storage::disk('public')->put('/images/default-img-for-project.jpg');
 
             $project = Project::create($dataProject);
 
@@ -62,11 +63,11 @@
         /**
          * Update the specified resource in storage.
          */
-        public function update(UpdateProjectRequest $request, Project $project)
+        public function update(UpdateProjectRequest $request, string $id)
         {
             $validated = $request->validated();
-            $validated['preview_image'] = Storage::disk('public')->put('/images', $validated['preview_image']);
-            $project->update($validated);
+            $validated['preview_image'] ? $validated['preview_image'] = Storage::disk('public')->put('/images', $validated['preview_image']) : $validated['preview_image'] = Storage::disk('public')->put('/images', $validated['preview_image']);
+            DB::table('projects')->where('id', $id)->update($validated);
 
             return redirect()->route('home.projects');
         }
@@ -76,7 +77,7 @@
          */
         public function destroy(string $id)
         {
-            $projects = Project::findOrFail($id);
+            $projects = Project::find($id);
 
             $projects->delete();
 

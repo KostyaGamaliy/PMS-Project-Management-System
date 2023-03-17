@@ -25,4 +25,10 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function updateLastModal(Request $request)
+    {
+        session(['last_modal' => $request->input('modal_id')]);
+        return response()->json(['status' => 'success']);
+    }
 }

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('assigner_id');
-            $table->foreignId('board_id');
+            $table->foreignId('user_id')->nullable()->constrained();
+            $table->foreignId('assigner_id')->constrained('users', 'id');
+            $table->foreignId('board_id')->nullable()->constrained();
             $table->string('name');
-            $table->string('description');
-            $table->string('status');
+            $table->string('description')->nullable();
+            $table->string('status')->default('Not started');
             $table->timestamps();
         });
     }

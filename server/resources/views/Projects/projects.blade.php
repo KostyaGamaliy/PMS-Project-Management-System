@@ -4,20 +4,39 @@
 
     <div class="container">
         <div class="search d-flex align-items-center">
-            <i class="fa fa-search me-2"></i>
             <input type="text" class="form-control me-2 flex-grow-1" placeholder="Have a question? Ask Now">
             <button class="btn btn-primary me-2">Search</button>
-            <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProjectModal">Create
-                project</a>
+            <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProjectModal">Create project</a>
         </div>
 
-        <script>
-            $(document).ready(function () {
-                @if ($errors->any())
-                $('#createProjectModal').modal('show');
-                @endif
-            });
-        </script>
+        <div class="container d-flex justify-content-evenly  flex-wrap ">
+            @foreach($projects as $project)
+                <div class="card my-1" style="width: 18rem;">
+                    <img src="{{ url('storage/' . ($project->preview_image == null ? 'images/default-img-for-project.jpg' : $project->preview_image)) }}" class="card-img-top"
+                         style="width: 286px; height: 10rem" alt="none image">
+                    <div class="card-body">
+                        <a></a><h5 class="card-title text-truncate">{{ $project->name }}</h5>
+                        <p class="card-text text-truncate">{{ $project->descriptions }}</p>
+                    </div>
+                    <div class="d-flex justify-content-around pb-3">
+                        <a type="button" class="btn btn-primary" data-bs-toggle="modal"
+                           data-bs-target="#updateProjectModal{{ $project->id }}">Edit</a>
+
+                        <form action="{{ route('home.deleteProject', ['id' => $project->id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        @foreach($projects as $project)
+            <div>
+                @include('Projects.updateProject')
+            </div>
+        @endforeach
 
         <div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModal"
              aria-hidden="true">
@@ -72,31 +91,36 @@
         </div>
     </div>
 
-    <div class="container d-flex justify-content-around  flex-wrap ">
-        @foreach($projects as $project)
-            <div class="card my-1" style="width: 18rem;">
-                <img src="{{ url('storage/' . $project->preview_image) }}" class="card-img-top"
-                     style="width: 286px; height: 10rem" alt="none image">
-                <div class="card-body">
-                    <a></a><h5 class="card-title text-truncate">{{ $project->name }}</h5>
-                    <p class="card-text text-truncate">{{ $project->descriptions }}</p>
-                </div>
-                <div class="d-flex justify-content-around pb-3">
-                    <a type="button" class="btn btn-primary" data-bs-toggle="modal"
-                       data-bs-target="#updateProjectModal{{ $project->id }}">Edit</a>
+    @php
+        $last_modal = session('last_modal');
+    @endphp
 
-                    <form action="{{ route('home.deleteProject', ['id' => $project->id]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                    </form>
-                </div>
-            </div>
+    <script>
+        $(document).ready(function () {
+            @if ($errors->any())
+            var last_modal = '{{ $last_modal }}';
+            if (last_modal) {
+                $('#' + last_modal).modal('show');
+            } else {
+                $('#createProjectModal').modal('show');
+            }
+            @endif
+        });
 
-            <div>
-                @include('Projects.updateProject')
-            </div>
-        @endforeach
-    </div>
+        $('.modal').on('shown.bs.modal', function () {
+            var modal_id = $(this).attr('id');
+            $.ajax({
+                url: '{{ route('home.updateLastModal') }}',
+                type: 'POST',
+                data: {
+                    modal_id: modal_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    </script>
 
 @endsection

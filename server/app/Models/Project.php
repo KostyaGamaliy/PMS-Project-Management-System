@@ -11,4 +11,7 @@ class Project extends Model
     protected $fillable = ['name', 'descriptions', 'preview_image'];
     use HasFactory;
 
+    public function users() {
+        return $this->belongsToMany(User::class);
+    }
 }

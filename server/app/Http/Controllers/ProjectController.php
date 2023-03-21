@@ -4,7 +4,9 @@
 
     use App\Http\Requests\StoreProjectRequest;
     use App\Http\Requests\UpdateProjectRequest;
+    use Illuminate\Support\Facades\Auth;
     use App\Models\Project;
+    use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\DB;
     use Illuminate\Support\Facades\Storage;
@@ -18,7 +20,11 @@
         public function index()
         {
             $projects = Project::all();
-            return view('Projects.projects', compact('projects'));
+            $users = User::all();
+
+            $user = Auth::user();
+
+            return view('Projects.projects', ['projects' => $projects, 'user' => $user]);
         }
 
         /**
@@ -26,7 +32,7 @@
          */
         public function create()
         {
-            //
+            return view("Projects.create");
         }
 
         /**
@@ -34,12 +40,16 @@
          */
         public function store(StoreProjectRequest $request)
         {
-            //dd($request->file());
-            $dataProject = $request->validated();
+            $data = $request->except('_token');
 
-            $dataProject['preview_image'] = Storage::disk('public')->put('/images/default-img-for-project.jpg');
+            if ($request->hasFile('preview_image')) {
+                $image = $request->file('preview_image');
+                $data['preview_image'] = $image->store('images', 'public');
+            }
 
-            $project = Project::create($dataProject);
+            $project = Project::create($data);
+
+            //$project->users()->attach($user->id);
 
             return redirect()->route('home.projects');
         }
@@ -79,6 +89,9 @@
         {
             $projects = Project::find($id);
 
+            if ($projects->preview_image){
+                Storage::disk('public')->delete($projects->preview_image);
+            }
             $projects->delete();
 
             return redirect()->route('home.projects');

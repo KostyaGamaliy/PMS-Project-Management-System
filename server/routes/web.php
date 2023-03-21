@@ -28,6 +28,8 @@ Auth::routes();
         Route::post('/project/create', [\App\Http\Controllers\ProjectController::class, 'store'])->name('createProject');
         Route::put('/project/update/{id}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('updateProject');
         Route::delete('/project/delete/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('deleteProject');
+        Route::get('/project/create', [\App\Http\Controllers\ProjectController::class, 'create'])->name('create');
+        Route::post('/project/post', [\App\Http\Controllers\ProjectController::class, 'store'])->name('post');
     });
 
     Route::post('updateLastModal', [\App\Http\Controllers\HomeController::class, 'updateLastModal'])->name('home.updateLastModal');

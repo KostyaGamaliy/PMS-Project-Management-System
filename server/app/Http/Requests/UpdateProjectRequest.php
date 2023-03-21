@@ -24,7 +24,7 @@ class UpdateProjectRequest extends FormRequest
         return [
             'name' => 'sometimes|required|string|min:3|max:100',
             'descriptions' => 'sometimes|string|min:5|max:1000',
-            'preview_image' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'preview_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 

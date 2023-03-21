@@ -12,8 +12,8 @@
         <div class="container d-flex justify-content-evenly  flex-wrap ">
             @foreach($projects as $project)
                 <div class="card my-1" style="width: 18rem;">
-                    <img src="{{ url('storage/' . ($project->preview_image == null ? 'images/default-img-for-project.jpg' : $project->preview_image)) }}" class="card-img-top"
-                         style="width: 286px; height: 10rem" alt="none image">
+                    <img  src="{{ url('storage/' . $project->preview_image) }}" class="card-img-top" style="width: 286px; height: 10rem" alt="none image">
+                    @dump(url('storage/' . $project->preview_image))
                     <div class="card-body">
                         <a></a><h5 class="card-title text-truncate">{{ $project->name }}</h5>
                         <p class="card-text text-truncate">{{ $project->descriptions }}</p>
@@ -44,6 +44,8 @@
                 <form class="modal-content" method="POST" action="{{ route('home.createProject') }}"
                       enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="user" value="{{$user->id ?? ""}}">
+
                     <div class="modal-header">
                         <h5 class="modal-title">Create your project</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -115,12 +117,10 @@
                 data: {
                     modal_id: modal_id,
                     _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-                    console.log(response);
                 }
             });
         });
     </script>
+
 
 @endsection

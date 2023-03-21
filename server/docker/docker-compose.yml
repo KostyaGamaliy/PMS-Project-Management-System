@@ -61,7 +61,7 @@ services:
         ports:
             - "${MYSQL_PORT}:3306" #Если ругается что какой-то порт занят попробуйте сменить первую 3309 на что-то другое, допустим на - "3308:3306"
         volumes:
-            - mysql-data-laravel:/var/lib/mysql
+            - ./mysql/data:/var/lib/mysql
             - ./mysql/configs/my.cnf:/etc/mysql/conf.d/my.cnf
             - ./mysql/dumps/laravel.sql:/docker-entrypoint-initdb.d/laravel.sql
         environment:
@@ -101,8 +101,4 @@ services:
         restart: always
         networks:
             - laravel
-
-volumes:
-    mysql-data-laravel:
-        driver: local
 

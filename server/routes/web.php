@@ -20,15 +20,25 @@ Auth::routes();
         return view('home');
     })->name('home');
 
+    Route::redirect('/', '/login');
+
+    Route::get('/home', function () {
+        if (session('status')) {
+            return redirect()->route('home')->with('status', session('status'));
+        }
+        return view('home');
+    })->name('home');
+
     Route::group([
         'as' => 'home.',
         'prefix' => 'home',
     ], function() {
         Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
+        Route::get('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
         Route::post('/project/create', [\App\Http\Controllers\ProjectController::class, 'store'])->name('createProject');
         Route::put('/project/update/{id}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('updateProject');
         Route::delete('/project/delete/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('deleteProject');
-        Route::get('/project/create', [\App\Http\Controllers\ProjectController::class, 'create'])->name('create');
+        Route::get('/project/{project_id}/board/{board_id}', );
         Route::post('/project/post', [\App\Http\Controllers\ProjectController::class, 'store'])->name('post');
     });
 

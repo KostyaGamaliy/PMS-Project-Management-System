@@ -14,17 +14,17 @@
 
     class ProjectController extends Controller
     {
+        public $defaultPath = "images/default-img-for-project.jpg";
         /**
          * Display a listing of the resource.
          */
         public function index()
         {
             $projects = Project::all();
-            $users = User::all();
 
             $user = Auth::user();
 
-            return view('Projects.projects', ['projects' => $projects, 'user' => $user]);
+            return view('Projects.projects', ['projects' => $projects, 'user' => $user, 'default' => $this->defaultPath]);
         }
 
         /**
@@ -42,6 +42,8 @@
         {
             $data = $request->except('_token');
 
+            $userId = $request->get('user_id');
+
             if ($request->hasFile('preview_image')) {
                 $image = $request->file('preview_image');
                 $data['preview_image'] = $image->store('images', 'public');
@@ -49,7 +51,7 @@
 
             $project = Project::create($data);
 
-            //$project->users()->attach($user->id);
+            $project->users()->attach($userId);
 
             return redirect()->route('home.projects');
         }
@@ -59,7 +61,10 @@
          */
         public function show(string $id)
         {
-            //
+            $project = Project::where('id', $id)->first();
+            $user = Auth::user();
+
+            return view("layouts.projectSidebar", ['project' => $project, 'default' => $this->defaultPath, 'user' => $user]);
         }
 
         /**
@@ -75,9 +80,23 @@
          */
         public function update(UpdateProjectRequest $request, string $id)
         {
-            $validated = $request->validated();
-            $validated['preview_image'] ? $validated['preview_image'] = Storage::disk('public')->put('/images', $validated['preview_image']) : $validated['preview_image'] = Storage::disk('public')->put('/images', $validated['preview_image']);
-            DB::table('projects')->where('id', $id)->update($validated);
+
+            $data = $request->except('_token');
+            unset($data['_method']);
+
+            $project = Project::where('id', $id)->first();
+            $fieldNames = $project->getAttributes();
+
+            if (isset($data['preview_image'])) {
+                if (!is_null($fieldNames['preview_image'])) {
+                    Storage::disk('public')->delete($project->preview_image);
+                }
+
+                $image = $request->file('preview_image');
+                $data['preview_image'] = $image->store('images', 'public');
+            }
+
+            DB::table('projects')->where('id', $id)->update($data);
 
             return redirect()->route('home.projects');
         }

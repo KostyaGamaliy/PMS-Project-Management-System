@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="container p-4">
         <div class="search d-flex align-items-center">
             <input type="text" class="form-control me-2 flex-grow-1" placeholder="Have a question? Ask Now">
             <button class="btn btn-primary me-2">Search</button>
@@ -12,10 +12,11 @@
         <div class="container d-flex justify-content-evenly  flex-wrap ">
             @foreach($projects as $project)
                 <div class="card my-1" style="width: 18rem;">
-                    <img  src="{{ url('storage/' . $project->preview_image) }}" class="card-img-top" style="width: 286px; height: 10rem" alt="none image">
-                    @dump(url('storage/' . $project->preview_image))
+                    <a href="{{ route('home.show', ['id' => $project->id]) }}">
+                        <img  src="{{ url('storage/' . ($project->preview_image ??  $default)) }}" class="card-img-top" style="width: 286px; height: 10rem" alt="none image">
+                    </a>
                     <div class="card-body">
-                        <a></a><h5 class="card-title text-truncate">{{ $project->name }}</h5>
+                        <h5 class="card-title text-truncate">{{ $project->name }}</h5>
                         <p class="card-text text-truncate">{{ $project->descriptions }}</p>
                     </div>
                     <div class="d-flex justify-content-around pb-3">
@@ -44,7 +45,7 @@
                 <form class="modal-content" method="POST" action="{{ route('home.createProject') }}"
                       enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="user" value="{{$user->id ?? ""}}">
+                    <input type="hidden" name="user_id" value="{{$user->id ?? ""}}">
 
                     <div class="modal-header">
                         <h5 class="modal-title">Create your project</h5>

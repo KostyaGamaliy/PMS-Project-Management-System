@@ -25,19 +25,5 @@ class UserSeeder extends Seeder
                 'created_at' => Carbon::parse()
             ]
         ]);
-
-        $userId = DB::table('users')->pluck('id')->toArray();
-
-        for ($i = 0; $i < 10; $i++){
-            DB::table('users')->insert([
-                [
-                    'name' => Str::random(10),
-                    'email' => Str::random(6) . '@gmail.com',
-                    'password' => Str::random(10),
-                    'is_admin' => 0,
-                    'created_at' => Carbon::parse()
-                ]
-            ]);
-        }
     }
 }

@@ -24,8 +24,8 @@ class StoreProjectRequest extends FormRequest
         return [
             'name' => 'required|string|min:3|max:100',
             'descriptions' => 'string|min:5|max:1000',
-            'preview_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'user' => 'required|integer|exists:users,id'
+            'preview_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'user_id' => 'required|integer|exists:users,id'
         ];
     }
 

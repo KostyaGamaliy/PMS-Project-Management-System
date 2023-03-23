@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Dashboard;
 use App\Models\Project;
 use App\Models\User;
 use Database\Factories\UserFactory;
@@ -15,12 +16,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            UserSeeder::class
-        ]);
+//        $this->call([
+//            UserSeeder::class
+//        ]);
+//
+//        Project::factory(8)->create();
+//        User::factory(11)->create();
 
-        Project::factory(8)->create();
-        User::factory(11)->create();
+        Dashboard::factory(4)->create();
 
         //\App\Models\User::factory(10)->create();
         //\App\Models\User::factory()->create([

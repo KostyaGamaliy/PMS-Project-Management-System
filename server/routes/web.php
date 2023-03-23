@@ -33,13 +33,19 @@ Auth::routes();
         'as' => 'home.',
         'prefix' => 'home',
     ], function() {
-        Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
-        Route::get('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
-        Route::post('/project/create', [\App\Http\Controllers\ProjectController::class, 'store'])->name('createProject');
-        Route::put('/project/update/{id}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('updateProject');
-        Route::delete('/project/delete/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('deleteProject');
-        Route::get('/project/{project_id}/board/{board_id}', );
-        Route::post('/project/post', [\App\Http\Controllers\ProjectController::class, 'store'])->name('post');
+        Route::resource('projects', \App\Http\Controllers\ProjectController::class);
+
+        //Route::get('/project/{project_id}/members', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
+
+        Route::group([
+            'as' => 'project.dashboard.',
+            'prefix' => '/project',
+        ], function() {
+            Route::get('/{project}/board/create',  [\App\Http\Controllers\DashboardController::class, 'create'])->name('create');
+            Route::post('/{project}/board/store',  [\App\Http\Controllers\DashboardController::class, 'store'])->name('store');
+            Route::get('/{project_id}/board/{dashboard_id}', [\App\Http\Controllers\DashboardController::class, 'show'])->name('show');
+        });
+
     });
 
     Route::post('updateLastModal', [\App\Http\Controllers\HomeController::class, 'updateLastModal'])->name('home.updateLastModal');

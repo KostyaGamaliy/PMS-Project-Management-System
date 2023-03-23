@@ -9,12 +9,14 @@
     use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Facades\Mail;
     use Illuminate\Support\Facades\Storage;
     use Illuminate\Support\Facades\Session;
 
     class ProjectController extends Controller
     {
         public $defaultPath = "images/default-img-for-project.jpg";
+
         /**
          * Display a listing of the resource.
          */
@@ -52,19 +54,24 @@
             $project = Project::create($data);
 
             $project->users()->attach($userId);
+            //dd($project->users);
+            foreach($project->users as $user) {
+                Mail::send('emails.project-create', ['project' => $project], function ($message) use ($user) {
+                    $message->to($user->email, $user->name)->subject('Make a new project');
+                    $message->from('kostya.example@gmail.com', 'FROM PALMO');
+                });
+            }
 
-            return redirect()->route('home.projects');
+
+            return redirect()->route('home.projects.index');
         }
 
         /**
          * Display the specified resource.
          */
-        public function show(string $id)
+        public function show(Project $project)
         {
-            $project = Project::where('id', $id)->first();
-            $user = Auth::user();
-
-            return view("layouts.projectSidebar", ['project' => $project, 'default' => $this->defaultPath, 'user' => $user]);
+            return view("layouts.project-dashboard", ['project' => $project, 'default' => $this->defaultPath]);
         }
 
         /**
@@ -78,13 +85,12 @@
         /**
          * Update the specified resource in storage.
          */
-        public function update(UpdateProjectRequest $request, string $id)
+        public function update(UpdateProjectRequest $request, Project $project)
         {
 
             $data = $request->except('_token');
             unset($data['_method']);
 
-            $project = Project::where('id', $id)->first();
             $fieldNames = $project->getAttributes();
 
             if (isset($data['preview_image'])) {
@@ -96,9 +102,9 @@
                 $data['preview_image'] = $image->store('images', 'public');
             }
 
-            DB::table('projects')->where('id', $id)->update($data);
+            $project->update($data);
 
-            return redirect()->route('home.projects');
+            return redirect()->route('home.projects.index');
         }
 
         /**
@@ -108,11 +114,11 @@
         {
             $projects = Project::find($id);
 
-            if ($projects->preview_image){
+            if ($projects->preview_image) {
                 Storage::disk('public')->delete($projects->preview_image);
             }
             $projects->delete();
 
-            return redirect()->route('home.projects');
+            return redirect()->route('home.projects.index');
         }
     }

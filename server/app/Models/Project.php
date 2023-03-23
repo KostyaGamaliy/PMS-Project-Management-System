@@ -14,4 +14,8 @@ class Project extends Model
     public function users() {
         return $this->belongsToMany(User::class);
     }
+
+    public function dashboards() {
+        return $this->hasMany(Dashboard::class);
+    }
 }

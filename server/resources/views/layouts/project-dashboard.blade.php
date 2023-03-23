@@ -26,39 +26,52 @@
     <div class="row vh-100">
         <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark col-md-4" style="width: 280px;">
             <a href="/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <img src="{{ url('storage/' . ($project->preview_image ??  $default)) }}" alt="none image" width="40" height="32" class="rounded-1 me-2">
+                <img src="{{ url('storage/' . ($project->preview_image ??  $default)) }}" alt="none image" width="40"
+                     height="32" class="rounded-1 me-2">
                 <span class="fs-4 text-truncate">{{ $project->name }}</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link text-white">
-                        Dashboard
-                    </a>
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle text-white" aria-current="page" href="#" role="button"
+                           id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dashboards
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            @foreach($project->dashboards as $dashboard)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('home.project.dashboard.show', ['project_id' => $project->id, 'dashboard_id' => $dashboard->id]) }}">{{ $dashboard->name }}</a>
+                                </li>
+                            @endforeach
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('home.project.dashboard.create', ['project' => $project]) }}">Create new table</a>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <a href="#" class="nav-link text-white">
                         Members
                     </a>
                 </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                        Settings
-                    </a>
-                </li>
             </ul>
             <hr>
             <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <strong>{{ $user->name }}</strong>
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                   id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <strong>{{ Auth::user()->name }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="{{ route('home') }}">Home page</a></li>
-                    <li><a class="dropdown-item" href="{{ route('home.projects') }}">My projects</a></li>
+                    <li><a class="dropdown-item" href="{{ route('home.projects.index') }}">My projects</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><hr class="dropdown-divider"></li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
 
@@ -69,10 +82,14 @@
                 </ul>
             </div>
         </div>
-        <main class="col-md-9 mx-3">
-            @yield('sidebar')
-        </main>
+
+        <div class="col-md-9 mx-3">
+            @yield('project')
+        </div>
     </div>
+</div>
 </div>
 </body>
 </html>
+
+

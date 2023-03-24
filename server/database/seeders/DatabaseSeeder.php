@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Dashboard;
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
@@ -23,8 +24,8 @@ class DatabaseSeeder extends Seeder
 //        Project::factory(8)->create();
 //        User::factory(11)->create();
 
-        Dashboard::factory(4)->create();
-
+//        Dashboard::factory(4)->create();
+        Task::factory(5)->create();
         //\App\Models\User::factory(10)->create();
         //\App\Models\User::factory()->create([
         //    'name' => 'Test User',

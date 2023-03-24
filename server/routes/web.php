@@ -49,6 +49,14 @@ Auth::routes();
             Route::delete('/{project}/board/{dashboard}/delete',  [\App\Http\Controllers\DashboardController::class, 'destroy'])->name('destroy');
         });
 
+        Route::group([
+            'as' => 'project.dashboard.task.',
+            'prefix' => '/project/{project}/board/{dashboard}/task',
+        ], function() {
+            Route::get('/create',  [\App\Http\Controllers\TaskController::class, 'create'])->name('create');
+            Route::post('/store',  [\App\Http\Controllers\TaskController::class, 'store'])->name('store');
+        });
+
     });
 
     Route::post('updateLastModal', [\App\Http\Controllers\HomeController::class, 'updateLastModal'])->name('home.updateLastModal');

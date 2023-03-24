@@ -16,8 +16,13 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+        return
+            [
+                'assigner_id' => 1,
+                'dashboard_id' => 1,
+                'name' => $this->faker->name(),
+                'description' => $this->faker->word(),
+                'status' => 'not done'
+            ];
     }
 }

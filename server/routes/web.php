@@ -55,6 +55,7 @@ Auth::routes();
         ], function() {
             Route::get('/create',  [\App\Http\Controllers\TaskController::class, 'create'])->name('create');
             Route::post('/store',  [\App\Http\Controllers\TaskController::class, 'store'])->name('store');
+            Route::delete('{task}/delete',  [\App\Http\Controllers\TaskController::class, 'destroy'])->name('destroy');
         });
 
     });

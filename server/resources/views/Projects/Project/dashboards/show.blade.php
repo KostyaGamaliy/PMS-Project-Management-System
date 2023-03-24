@@ -8,15 +8,20 @@
                 <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                 <h3 class="h3 mb-0 text-gray-800">{{ $dashboard->name }}</h3>
                 <div class="d-flex flex-row justify-content-around shadow-sm">
-                    <a href="{{ route('home.project.dashboard.task.create', ['project' => $project, 'dashboard' => $dashboard]) }}" class="btn btn-sm btn-primary"><i
+                    <a href="{{ route('home.project.dashboard.task.create', ['project' => $project, 'dashboard' => $dashboard]) }}"
+                       class="btn btn-sm btn-primary"><i
                             class="fas fa-download fa-sm text-white-50"></i> Add task</a>
-                    <form class="mx-2" method="GET" action="{{ route('home.project.dashboard.edit', ['project' => $project, 'dashboard' => $dashboard]) }}" enctype="multipart/form-data">
+                    <form class="mx-2" method="GET"
+                          action="{{ route('home.project.dashboard.edit', ['project' => $project, 'dashboard' => $dashboard]) }}"
+                          enctype="multipart/form-data">
                         @csrf
                         <button class="btn btn-sm btn-success">
                             Edit table
                         </button>
                     </form>
-                    <form method="POST" action="{{ route('home.project.dashboard.destroy', ['project' => $project, 'dashboard' => $dashboard]) }}" enctype="multipart/form-data">
+                    <form method="POST"
+                          action="{{ route('home.project.dashboard.destroy', ['project' => $project, 'dashboard' => $dashboard]) }}"
+                          enctype="multipart/form-data">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-sm btn-danger">
@@ -25,7 +30,6 @@
                     </form>
                 </div>
             </div>
-
 
 
             <div class="rounded-1">
@@ -46,9 +50,21 @@
                             <th scope="row">{{ $task->id }}</th>
                             <td>{{ $task->name }}</td>
                             <td>{{ $task->status }}</td>
-                            <td><button class="btn btn-info">INFO</button></td>
-                            <td><button class="btn btn-success">EDIT</button></td>
-                            <td><button class="btn btn-danger">DELETE</button></td>
+                            <td>
+                                <button class="btn btn-info">INFO</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-success">EDIT</button>
+                            </td>
+                            <td>
+                                <form method="POST" action="{{ route('home.project.dashboard.task.destroy', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger" type="submit">
+                                        DELETE
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -67,8 +67,10 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project, Dashboard $dashboard, Task $task)
     {
-        //
+        $task->delete();
+
+        return redirect()->route('home.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
     }
 }

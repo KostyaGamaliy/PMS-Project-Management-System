@@ -11,7 +11,7 @@ class StoreDashboardRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,22 @@ class StoreDashboardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'string|min:2|max:100',
+            'project_id' => 'integer|exists:projects,id'
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'name.string' => 'This field should be a string',
+            'name.min' => 'This field must be longer than 2 characters',
+            'name.max' => 'This field must be less than 100 characters long',
         ];
     }
 }

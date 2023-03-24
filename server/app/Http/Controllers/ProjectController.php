@@ -54,7 +54,7 @@
             $project = Project::create($data);
 
             $project->users()->attach($userId);
-            //dd($project->users);
+
             foreach($project->users as $user) {
                 Mail::send('emails.project-create', ['project' => $project], function ($message) use ($user) {
                     $message->to($user->email, $user->name)->subject('Make a new project');

@@ -10,6 +10,7 @@
             <form method="POST" action="{{ route('home.project.dashboard.store', ['project' => $project]) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
+                    <input type="hidden" name="project_id" value="{{ $project->id }}">
                     <label for="name" class="form-label">Name</label>
                     <input value="{{ old('name') }}"
                            type="text"

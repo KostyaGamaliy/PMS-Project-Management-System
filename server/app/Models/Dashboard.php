@@ -9,6 +9,9 @@ class Dashboard extends Model
 {
     use HasFactory;
 
+    protected $guarded = false;
+    protected $fillable = ['name', 'project_id'];
+
     public function projects() {
         return $this->belongsTo(Project::class);
     }

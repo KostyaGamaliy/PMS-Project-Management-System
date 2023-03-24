@@ -7,8 +7,23 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                 <h3 class="h3 mb-0 text-gray-800">{{ $dashboard->name }}</h3>
-                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                        class="fas fa-download fa-sm text-white-50"></i> Add task</a>
+                <div class="d-flex flex-row justify-content-around shadow-sm">
+                    <a href="#" class="btn btn-sm btn-primary"><i
+                            class="fas fa-download fa-sm text-white-50"></i> Add task</a>
+                    <form class="mx-2" method="GET" action="{{ route('home.project.dashboard.destroy', ['project' => $project, 'dashboard' => $dashboard]) }}" enctype="multipart/form-data">
+                        @csrf
+                        <button class="btn btn-sm btn-success">
+                            Edit table
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ route('home.project.dashboard.destroy', ['project' => $project, 'dashboard' => $dashboard]) }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger">
+                            Delete table
+                        </button>
+                    </form>
+                </div>
             </div>
             <div class="rounded-1">
                 <table class="table table-dark">

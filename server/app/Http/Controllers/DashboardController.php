@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDashboardRequest;
 use App\Models\Dashboard;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -28,9 +29,16 @@ class DashboardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDashboardRequest $request, Project $project)
     {
+        $data = $request->except('_token');
+        //$data['project_id'] = $project->id;
+        //dd($data);
+        $dashboard = Dashboard::create($data);
 
+        //$dashboard->projects->attach($project->id);
+
+        return redirect()->route('home.projects.show', ['project' => $project]);
     }
 
     /**
@@ -49,7 +57,7 @@ class DashboardController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
     }
 
     /**
@@ -63,8 +71,11 @@ class DashboardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project, Dashboard $dashboard)
     {
-        //
+        //dd($project, $dashboard);
+        $dashboard->delete();
+
+        return redirect()->route('home.projects.show', ['project' => $project]);
     }
 }

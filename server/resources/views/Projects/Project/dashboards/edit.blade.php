@@ -3,7 +3,7 @@
 @section('project')
     <div class="bg-white p-4 rounded">
         <div class="lead">
-            Add new table
+            Edit table
         </div>
 
         <div class="container mt-4 p-0">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Dashboard;
 use App\Models\Project;
 use App\Models\Task;
@@ -51,17 +52,21 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project, Dashboard $dashboard, Task $task)
     {
-        //
+        return view('Projects.Project.dashboards.tasks.edit', compact('project', 'dashboard', 'task'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskRequest $request, Project $project, Dashboard $dashboard, Task $task)
     {
-        //
+        $data = $request->except('_token', '_method');
+
+        $task->update($data);
+
+        return redirect()->route('home.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
     }
 
     /**

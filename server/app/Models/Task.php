@@ -10,7 +10,7 @@ class Task extends Model
     use HasFactory;
 
     protected $guarded = false;
-    protected $fillable = ['user_id', 'assigner_id', 'dashboard_id', 'name', 'descriptions', 'status'];
+    protected $fillable = ['user_id', 'assigner_id', 'dashboard_id', 'name', 'description', 'status'];
 
     public function dashboards() {
         return $this->belongsTo(Dashboard::class);

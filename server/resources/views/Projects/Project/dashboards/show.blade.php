@@ -54,7 +54,12 @@
                                 <button class="btn btn-info">INFO</button>
                             </td>
                             <td>
-                                <button class="btn btn-success">EDIT</button>
+                                <form method="GET" action="{{ route('home.project.dashboard.task.edit', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <button class="btn btn-success" type="submit">
+                                        EDIT
+                                    </button>
+                                </form>
                             </td>
                             <td>
                                 <form method="POST" action="{{ route('home.project.dashboard.task.destroy', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">

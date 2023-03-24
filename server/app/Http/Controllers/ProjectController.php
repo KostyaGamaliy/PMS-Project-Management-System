@@ -88,8 +88,7 @@
         public function update(UpdateProjectRequest $request, Project $project)
         {
 
-            $data = $request->except('_token');
-            unset($data['_method']);
+            $data = $request->except('_token', '_method');
 
             $fieldNames = $project->getAttributes();
 

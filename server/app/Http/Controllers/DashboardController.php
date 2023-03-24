@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDashboardRequest;
+use App\Http\Requests\UpdateDashboardRequest;
 use App\Models\Dashboard;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -55,17 +56,21 @@ class DashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project, Dashboard $dashboard)
     {
-
+        return view('Projects.Project.dashboards.edit', compact('project', 'dashboard'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateDashboardRequest $request, Project $project, Dashboard $dashboard)
     {
-        //
+        $data = $request->except('_token', '_method');
+
+        $dashboard->update($data);
+
+        return redirect()->route('home.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
     }
 
     /**

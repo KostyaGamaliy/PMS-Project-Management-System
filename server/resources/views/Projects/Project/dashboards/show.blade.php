@@ -10,7 +10,7 @@
                 <div class="d-flex flex-row justify-content-around shadow-sm">
                     <a href="#" class="btn btn-sm btn-primary"><i
                             class="fas fa-download fa-sm text-white-50"></i> Add task</a>
-                    <form class="mx-2" method="GET" action="{{ route('home.project.dashboard.destroy', ['project' => $project, 'dashboard' => $dashboard]) }}" enctype="multipart/form-data">
+                    <form class="mx-2" method="GET" action="{{ route('home.project.dashboard.edit', ['project' => $project, 'dashboard' => $dashboard]) }}" enctype="multipart/form-data">
                         @csrf
                         <button class="btn btn-sm btn-success">
                             Edit table

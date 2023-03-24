@@ -42,7 +42,7 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             @foreach($project->dashboards as $dashboard)
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('home.project.dashboard.show', ['project_id' => $project->id, 'dashboard_id' => $dashboard->id]) }}">{{ $dashboard->name }}</a>
+                                    <a class="dropdown-item" href="{{ route('home.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]) }}">{{ $dashboard->name }}</a>
                                 </li>
                             @endforeach
                             <div class="dropdown-divider"></div>

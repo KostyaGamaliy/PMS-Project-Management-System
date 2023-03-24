@@ -43,8 +43,9 @@ Auth::routes();
         ], function() {
             Route::post('/{project}/board/store',  [\App\Http\Controllers\DashboardController::class, 'store'])->name('store');
             Route::get('/{project}/board/create',  [\App\Http\Controllers\DashboardController::class, 'create'])->name('create');
-            Route::get('/{project_id}/board/{dashboard_id}', [\App\Http\Controllers\DashboardController::class, 'show'])->name('show');
+            Route::get('/{project}/board/{dashboard}', [\App\Http\Controllers\DashboardController::class, 'show'])->name('show');
             Route::get('/{project}/board/{dashboard}/edit', [\App\Http\Controllers\DashboardController::class, 'edit'])->name('edit');
+            Route::put('/{project}/board/{dashboard}/update', [\App\Http\Controllers\DashboardController::class, 'update'])->name('update');
             Route::delete('/{project}/board/{dashboard}/delete',  [\App\Http\Controllers\DashboardController::class, 'destroy'])->name('destroy');
         });
 

@@ -6,7 +6,7 @@
         <div class="container-fluid my-4">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">People working on the project</h1>
-                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                <a href="{{ route('home.project.members.create', ['project' => $project]) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fas fa-download fa-sm text-white-50"></i>Add a participant to the project</a>
             </div>
             <div class="rounded-1">
@@ -47,9 +47,34 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h3>{{ $user->name }}</h3>
-                                        <h3>{{ $user->role->name }}</h3>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <h4>Username:</h4>
+                                            </div>
+                                            <div class="col-8">
+                                                <h3>{{ $user->name }}</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <h4>Role name:</h4>
+                                            </div>
+                                            <div class="col-8">
+                                                <h3>{{ $user->role->name }}</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <h4>Role permissions:</h4>
+                                            </div>
+                                            <div class="col-8">
+                                                @foreach($user->role->permissions as $permission)
+                                                    <h3>{{ $permission->description }}</h3>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     </div>
@@ -62,5 +87,4 @@
             </div>
         </div>
     </div>
-
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dashboard;
 use App\Models\Project;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +22,29 @@ class MemberController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request, Project $project)
     {
-        //
+        $users = User::whereDoesntHave('projects', function ($query) use ($project){
+            $query->where('project_id', $project->id);
+        })->get();
+
+        $roles = Role::all();
+
+        if ($request->has('role_id')) {
+            $role = Role::findOrFail($request->input('role_id'));
+
+            $permissions = $role->permissions;
+        }
+
+        return view('Projects.Project.members.create', ['project' => $project, 'users' => $users, 'roles' => $roles, 'permissions' => $permissions ?? []]);
+    }
+
+    public function getPermissions(Request $request) {
+        $role = Role::findOrFail($request->input('role_id'));
+
+        $permissions = $role->permissions;
+
+        return $permissions;
     }
 
     /**

@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Dashboard;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Dashboard $dashboard, Project $project)
+    public function index(Project $project)
     {
-        return view("Projects.Project.members.show", ['dashboard' => $dashboard, 'project' => $project]);
+        return view("Projects.Project.members.show", ['project' => $project]);
     }
 
     /**
@@ -59,8 +61,10 @@ class MemberController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project, User $user)
     {
-        //
+        $user->projects()->detach($project->id);
+
+        return redirect()->route('home.project.members.index', ['project' => $project]);
     }
 }

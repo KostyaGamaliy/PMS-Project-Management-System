@@ -6,7 +6,6 @@
         <div class="container-fluid my-4">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">People working on the project</h1>
-                <h3 class="h3 mb-0 text-gray-800">{{ $dashboard->name }}</h3>
                 <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fas fa-download fa-sm text-white-50"></i>Add a participant to the project</a>
             </div>
@@ -34,10 +33,12 @@
                                    data-bs-target="#infoPeopleRole{{$user->id}}">INFO</a>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-success">EDIT</button>
+                                <a type="button" class="btn btn-success" href="">EDIT</a>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-danger">Remove from the project</button>
+                                @if(Auth::user()->id !== $user->id)
+                                    <a type="button" class="btn btn-danger" href="{{ route('home.project.members.destroy', ['project' => $project, 'user' => $user]) }}">Remove from the project</a>
+                                @endif
                             </td>
                         </tr>
 

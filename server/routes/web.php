@@ -36,6 +36,7 @@ Auth::routes();
         Route::resource('projects', \App\Http\Controllers\ProjectController::class);
 
         Route::get('/{project}/members', [\App\Http\Controllers\MemberController::class, 'index'])->name('project.members.index');
+        Route::get('/{project}/members/{user}/delete', [\App\Http\Controllers\MemberController::class, 'destroy'])->name('project.members.destroy');
 
         //Route::get('/project/{project_id}/members', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
 

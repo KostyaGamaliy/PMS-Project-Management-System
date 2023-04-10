@@ -27,14 +27,7 @@
 
                 <div class="col-md-6">
                     <h4>Who working on this task</h4>
-                    @foreach($project->users as $user)
-                        @if($user->firstWhere('id', $task->user_id))
-                            <p>{{ $task->users }}</p>
-                        @else
-                            <p>none</p>
-                        @endif
-                    @endforeach
-{{--                    <p>{{ $task->users }}</p>--}}
+                    <p>{{ $task->user->name }}</p>
                 </div>
             </div>
         </div>

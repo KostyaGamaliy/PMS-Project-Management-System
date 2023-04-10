@@ -76,15 +76,6 @@
             return view("layouts.project-dashboard", ['project' => $project, 'default' => $this->defaultPath]);
         }
 
-        public function showMembers(Dashboard $dashboard, Project $project)
-        {
-            foreach ($project->users as $user) {
-                $roles[] = Role::find($user->role_id);
-            }
-
-            return view("Projects.Project.members.show", ['dashboard' => $dashboard, 'project' => $project, 'roles' => $roles]);
-        }
-
         /**
          * Show the form for editing the specified resource.
          */

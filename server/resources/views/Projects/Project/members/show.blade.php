@@ -15,11 +15,11 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Info</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
+                        <th scope="col" class="text-center">Name</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center">Info</th>
+                        <th scope="col" class="text-center">Edit</th>
+                        <th scope="col" class="text-center">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -27,56 +27,41 @@
 
                         <tr>
                             <th scope="row">{{ $user->id }}</th>
-                            <td>{{ $user->name }}</td>
-                            @if($role = collect($roles)->firstWhere('id', $user->role_id))
-                                <td>{{ $role->name }}</td>
-                            @else
-                                <td>none</td>
-                            @endif
-                            <td>
+                            <td class="text-center">{{ $user->name }}</td>
+                            <td class="text-center">{{ $user->role->name }}</td>
+                            <td class="text-center">
                                 <a type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                   data-bs-target="#infoPeopleRole">INFO</a>
+                                   data-bs-target="#infoPeopleRole{{$user->id}}">INFO</a>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <button class="btn btn-success">EDIT</button>
                             </td>
-                            <td>
-                                <button class="btn btn-danger">DELETE</button>
+                            <td class="text-center">
+                                <button class="btn btn-danger">Remove from the project</button>
                             </td>
                         </tr>
 
+                        <div class="modal fade" id="infoPeopleRole{{$user->id}}" tabindex="-1" aria-labelledby="infoPeopleRole{{$user->id}}"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Info</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>{{ $user->name }}</h3>
+                                        <h3>{{ $user->role->name }}</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <div class="modal fade" id="infoPeopleRole" tabindex="-1" aria-labelledby="infoPeopleRole"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Info</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h3>{{ $user->name }}</h3>
-                        @if($role = collect($roles)->firstWhere('id', $user->role_id))
-                            <h3>{{ $user->name }}</h3>
-                        @else
-                            <h3>None</h3>
-                        @endif
-                        @php
-                            $role = collect($roles)->firstWhere('id', $user->role_id);
-                            $role->
-                        @endphp
-                        <h3>{{ $user->name }}</h3>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Create</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

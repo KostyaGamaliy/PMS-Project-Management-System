@@ -37,21 +37,21 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Info</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
+                        <th scope="col" class="text-center">Name</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center">Info</th>
+                        <th scope="col" class="text-center">Edit</th>
+                        <th scope="col" class="text-center">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($dashboard->tasks as $task)
                         <tr>
                             <th scope="row">{{ $task->id }}</th>
-                            <td>{{ $task->name }}</td>
-                            <td>{{ $task->status }}</td>
+                            <td class="text-center">{{ $task->name }}</td>
+                            <td class="text-center">{{ $task->status }}</td>
                             <td>
-                                <form method="GET" action="{{ route('home.project.dashboard.task.show', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
+                                <form method="GET" class="text-center" action="{{ route('home.project.members.index', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
                                     @csrf
                                     <button class="btn btn-info" type="submit">
                                         INFO
@@ -59,7 +59,7 @@
                                 </form>
                             </td>
                             <td>
-                                <form method="GET" action="{{ route('home.project.dashboard.task.edit', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
+                                <form method="GET" class="text-center" action="{{ route('home.project.dashboard.task.edit', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
                                     @csrf
                                     <button class="btn btn-success" type="submit">
                                         EDIT
@@ -67,7 +67,7 @@
                                 </form>
                             </td>
                             <td>
-                                <form method="POST" action="{{ route('home.project.dashboard.task.destroy', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
+                                <form method="POST" class="text-center" action="{{ route('home.project.dashboard.task.destroy', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger" type="submit">

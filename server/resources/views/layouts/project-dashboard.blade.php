@@ -51,7 +51,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="{{ route('home.project.showMembers', ['dashboard' => $dashboard,   'project' => $project]) }}" class="nav-link text-white">
+                    <a href="{{ route('home.project.members.index', ['dashboard' => $dashboard,   'project' => $project]) }}" class="nav-link text-white">
                         Members
                     </a>
                 </li>

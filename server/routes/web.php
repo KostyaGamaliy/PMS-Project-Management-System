@@ -34,7 +34,8 @@ Auth::routes();
         'prefix' => 'home',
     ], function() {
         Route::resource('projects', \App\Http\Controllers\ProjectController::class);
-        Route::get('/{project}/members',  [\App\Http\Controllers\ProjectController::class, 'showMembers'])->name('project.showMembers');
+
+        Route::get('/{project}/members', [\App\Http\Controllers\MemberController::class, 'index'])->name('project.members.index');
 
         //Route::get('/project/{project_id}/members', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
 

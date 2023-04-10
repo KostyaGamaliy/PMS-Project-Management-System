@@ -51,7 +51,7 @@
                             <td class="text-center">{{ $task->name }}</td>
                             <td class="text-center">{{ $task->status }}</td>
                             <td>
-                                <form method="GET" class="text-center" action="{{ route('home.project.members.index', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
+                                <form method="GET" class="text-center" action="{{ route('home.project.dashboard.task.show', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
                                     @csrf
                                     <button class="btn btn-info" type="submit">
                                         INFO

@@ -8,6 +8,7 @@ use App\Models\Dashboard;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -16,7 +17,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $task = Task::all();
     }
 
     /**
@@ -44,9 +45,11 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Project $project, Dashboard $dashboard, Task $task)
     {
-        //
+        $task = Task::where('id', $task->id)->first();
+
+        return view('Projects.Project.dashboards.tasks.info', ['dashboard' => $dashboard, 'project' => $project, 'task' => $task]);
     }
 
     /**

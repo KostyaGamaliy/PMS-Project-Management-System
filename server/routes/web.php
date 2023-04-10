@@ -34,6 +34,7 @@ Auth::routes();
         'prefix' => 'home',
     ], function() {
         Route::resource('projects', \App\Http\Controllers\ProjectController::class);
+        Route::get('/{project}/members',  [\App\Http\Controllers\ProjectController::class, 'showMembers'])->name('project.showMembers');
 
         //Route::get('/project/{project_id}/members', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
 
@@ -41,6 +42,7 @@ Auth::routes();
             'as' => 'project.dashboard.',
             'prefix' => '/project',
         ], function() {
+
             Route::post('/{project}/board/store',  [\App\Http\Controllers\DashboardController::class, 'store'])->name('store');
             Route::get('/{project}/board/create',  [\App\Http\Controllers\DashboardController::class, 'create'])->name('create');
             Route::get('/{project}/board/{dashboard}', [\App\Http\Controllers\DashboardController::class, 'show'])->name('show');
@@ -58,6 +60,7 @@ Auth::routes();
             Route::delete('/{task}/delete',  [\App\Http\Controllers\TaskController::class, 'destroy'])->name('destroy');
             Route::get('/{task}/edit', [\App\Http\Controllers\TaskController::class, 'edit'])->name('edit');
             Route::put('/{task}/update', [\App\Http\Controllers\TaskController::class, 'update'])->name('update');
+            Route::get('/{task}/show', [\App\Http\Controllers\TaskController::class, 'show'])->name('show');
         });
 
     });

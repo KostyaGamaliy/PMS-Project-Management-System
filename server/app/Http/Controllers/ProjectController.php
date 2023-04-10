@@ -4,6 +4,8 @@
 
     use App\Http\Requests\StoreProjectRequest;
     use App\Http\Requests\UpdateProjectRequest;
+    use App\Models\Dashboard;
+    use App\Models\Role;
     use Illuminate\Support\Facades\Auth;
     use App\Models\Project;
     use App\Models\User;
@@ -72,6 +74,15 @@
         public function show(Project $project)
         {
             return view("layouts.project-dashboard", ['project' => $project, 'default' => $this->defaultPath]);
+        }
+
+        public function showMembers(Dashboard $dashboard, Project $project)
+        {
+            foreach ($project->users as $user) {
+                $roles[] = Role::find($user->role_id);
+            }
+
+            return view("Projects.Project.members.show", ['dashboard' => $dashboard, 'project' => $project, 'roles' => $roles]);
         }
 
         /**

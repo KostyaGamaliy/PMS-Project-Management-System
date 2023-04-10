@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->foreignId('role_id')->nullable()->constrained();
+            $table->unsignedBigInteger('role_id')->unsigned()->nullable();
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            //$table->foreignId('role_id')->nullable()->constrained();
             $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();

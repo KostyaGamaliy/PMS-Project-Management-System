@@ -25,11 +25,11 @@
 <div class="container-fluid">
     <div class="row vh-100">
         <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark col-md-4" style="width: 280px;">
-            <a href="/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <img src="{{ url('storage/' . ($project->preview_image ??  $default)) }}" alt="none image" width="40"
                      height="32" class="rounded-1 me-2">
                 <span class="fs-4 text-truncate">{{ $project->name }}</span>
-            </a>
+            </div>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
@@ -51,7 +51,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#" class="nav-link text-white">
+                    <a href="{{ route('home.project.showMembers', ['dashboard' => $dashboard,   'project' => $project]) }}" class="nav-link text-white">
                         Members
                     </a>
                 </li>

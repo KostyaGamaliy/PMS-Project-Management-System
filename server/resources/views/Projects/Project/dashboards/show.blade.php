@@ -51,7 +51,12 @@
                             <td>{{ $task->name }}</td>
                             <td>{{ $task->status }}</td>
                             <td>
-                                <button class="btn btn-info">INFO</button>
+                                <form method="GET" action="{{ route('home.project.dashboard.task.show', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <button class="btn btn-info" type="submit">
+                                        INFO
+                                    </button>
+                                </form>
                             </td>
                             <td>
                                 <form method="GET" action="{{ route('home.project.dashboard.task.edit', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">

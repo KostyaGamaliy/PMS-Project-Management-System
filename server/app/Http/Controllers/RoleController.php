@@ -23,9 +23,11 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Project $project)
     {
-        //
+        $permissions = Permission::all();
+
+        return view("Projects.Project.roles.create", ['project' => $project, 'permissions' => $permissions]);
     }
 
     /**
@@ -33,7 +35,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

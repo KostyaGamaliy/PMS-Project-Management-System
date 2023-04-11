@@ -18,7 +18,7 @@
 
         <div class="container mt-4 p-0">
             <form method="POST"
-                  action=""
+                  action="{{ route('home.project.members.store', ['project' => $project]) }}"
                   enctype="multipart/form-data">
                 @csrf
 
@@ -27,7 +27,6 @@
                     <select class="form-select shadow-none @error('user_id') is-invalid @enderror"
                             name="user_id"
                             id="inputUser">
-                        <option selected>Select user</option>
                         @foreach($users as $user)
                             <option
                                 value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : ''}}>{{ $user->name }}</option>
@@ -44,7 +43,6 @@
                     <select class="form-select shadow-none @error('role_id') is-invalid @enderror"
                             name="role_id"
                             id="inputRole">
-                        <option selected>Select role</option>
                         @foreach($roles as $role)
                             <option
                                 value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : ''}}>{{ $role->name }}</option>
@@ -57,10 +55,6 @@
                 @enderror
 
                 <div class="mb-3" id="permissions-select"></div>
-
-                @error('permission_id')
-                <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
 
                 <button type="submit" class="btn btn-outline-primary shadow-none">Add</button>
 
@@ -78,11 +72,12 @@
                         console.log(response.data);
 
                         var permissionsdiv = document.getElementById('permissions-select');
-                        var html = `<label for="permission_id" class="form-label">Select permissions</label>
+                        var html = `<label for="permission_id" class="form-label">Permissions</label>
                             <select class="form-select shadow-none @error('permission_id') is-invalid @enderror"
                             name="permission_id"
                             id="inputPermission"
                             multiple
+                            disabled
                             name="permissions[]">`;
                         for (var i = 0; i < response.data.length; i++) {
                             var permission = response.data[i];

@@ -39,6 +39,7 @@ Auth::routes();
         Route::get('/{project}/members/{user}/delete', [\App\Http\Controllers\MemberController::class, 'destroy'])->name('project.members.destroy');
         Route::get('/{project}/members/create', [\App\Http\Controllers\MemberController::class, 'create'])->name('project.members.create');
         Route::post('/members/get-permissions', [\App\Http\Controllers\MemberController::class, 'getPermissions'])->name('project.members.getPermissions');
+        Route::post('/{project}/members/store', [\App\Http\Controllers\MemberController::class, 'store'])->name('project.members.store');
 
         //Route::get('/project/{project_id}/members', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
 

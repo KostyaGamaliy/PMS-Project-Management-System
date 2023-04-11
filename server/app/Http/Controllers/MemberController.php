@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Dashboard;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -41,7 +43,6 @@ class MemberController extends Controller
 
     public function getPermissions(Request $request) {
         $role = Role::findOrFail($request->input('role_id'));
-
         $permissions = $role->permissions;
 
         return $permissions;
@@ -50,9 +51,18 @@ class MemberController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        $rules = ['user_id' => 'required|int', 'role_id' => 'int'];
+        $this->validate( $request, $rules);
+
+        DB::table('users')
+            ->where('id', $request->get('user_id'))
+            ->update(['role_id' => $request->get('role_id')]);
+
+        $project->users()->attach($request->get('user_id'));
+
+        return redirect()->route('home.project.members.index', ['project' => $project]);
     }
 
     /**

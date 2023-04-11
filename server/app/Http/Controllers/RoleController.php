@@ -33,9 +33,16 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
+        $rules = ['name' => 'required|string|min:5|max:125', 'permission_id' => 'array'];
+        $this->validate( $request, $rules);
 
+        $role = Role::create(['name' => $request->get('name')]);
+
+        $role->permissions()->attach($request->get('permission_id'));
+
+        return redirect()->route('home.project.roles.index', ['project' => $project]);
     }
 
     /**

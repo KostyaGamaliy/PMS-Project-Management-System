@@ -77,7 +77,7 @@ Auth::routes();
         Route::put('/{project}/roles/update' , [\App\Http\Controllers\RoleController::class, 'update'])->name('project.roles.update');
         Route::get('/{project}/roles/{role}/delete' , [\App\Http\Controllers\RoleController::class, 'destroy'])->name('project.roles.destroy');
         Route::get('/{project}/roles/create' , [\App\Http\Controllers\RoleController::class, 'create'])->name('project.roles.create');
-        Route::get('/{project}/roles/store' , [\App\Http\Controllers\RoleController::class, 'store'])->name('project.roles.store');
+        Route::post('/{project}/roles/store' , [\App\Http\Controllers\RoleController::class, 'store'])->name('project.roles.store');
 
         Route::post('/permission/store' , [\App\Http\Controllers\PermissionController::class, 'store'])->name('permission.store');
         Route::post('/permission/destroy' , [\App\Http\Controllers\PermissionController::class, 'destroy'])->name('permission.destroy');

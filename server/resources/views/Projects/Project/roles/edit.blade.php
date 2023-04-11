@@ -39,8 +39,75 @@
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
 
-                <button type="submit" class="btn btn-outline-primary shadow-none">Update role</button>
+                <button type="submit" class="btn btn-primary">Update role</button>
+                <a type="button" class="btn btn-outline-primary shadow-none" data-bs-toggle="modal"
+                   data-bs-target="#addPermissionModal">Add permission</a>
             </form>
         </div>
     </div>
+
+    <div class="modal fade" id="addPermissionModal" tabindex="-1" aria-labelledby="addPermissionModal"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('home.permission.store', ['project' => $project]) }}" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add new permission</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input
+                            class="form-control"
+                            type="text"
+                            placeholder="Description of permission"
+                            name="description"
+                            value="{{ old('name') }}"
+                            class="@error('description') is-invalid @enderror"
+                        >
+
+                        @error('description')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add permission</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @php
+        $last_modal = session('last_modal');
+    @endphp
+
+    <script>
+        $(document).ready(function () {
+            @if ($errors->any())
+            var last_modal = '{{ $last_modal }}';
+            if (last_modal) {
+                $('#' + last_modal).modal('show');
+            } else {
+                $('#createProjectModal').modal('show');
+            }
+            @endif
+        });
+
+        $('.modal').on('shown.bs.modal', function () {
+            var modal_id = $(this).attr('id');
+            $.ajax({
+                url: '{{ route('home.updateLastModal') }}',
+                type: 'POST',
+                data: {
+                    modal_id: modal_id,
+                    _token: '{{ csrf_token() }}'
+                }
+            });
+        });
+    </script>
 @endsection

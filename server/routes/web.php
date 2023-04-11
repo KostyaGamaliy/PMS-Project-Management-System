@@ -77,6 +77,8 @@ Auth::routes();
         Route::put('/{project}/roles/update' , [\App\Http\Controllers\RoleController::class, 'update'])->name('project.roles.update');
         Route::get('/{project}/roles/{role}/delete' , [\App\Http\Controllers\RoleController::class, 'destroy'])->name('project.roles.destroy');
 
+        Route::post('/{project}/permission/store' , [\App\Http\Controllers\PermissionController::class, 'store'])->name('permission.store');
+
     });
 
     Route::post('updateLastModal', [\App\Http\Controllers\HomeController::class, 'updateLastModal'])->name('home.updateLastModal');

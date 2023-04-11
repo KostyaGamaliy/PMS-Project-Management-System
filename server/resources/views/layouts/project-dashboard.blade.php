@@ -55,6 +55,11 @@
                         Members
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('home.project.roles.index', ['project' => $project]) }}" class="nav-link text-white">
+                        Roles
+                    </a>
+                </li>
             </ul>
             <hr>
             <div class="dropdown">

@@ -35,21 +35,10 @@ Auth::routes();
     ], function() {
         Route::resource('projects', \App\Http\Controllers\ProjectController::class);
 
-        Route::get('/{project}/members', [\App\Http\Controllers\MemberController::class, 'index'])->name('project.members.index');
-        Route::get('/{project}/members/{user}/delete', [\App\Http\Controllers\MemberController::class, 'destroy'])->name('project.members.destroy');
-        Route::get('/{project}/members/create', [\App\Http\Controllers\MemberController::class, 'create'])->name('project.members.create');
-        Route::post('/members/get-permissions', [\App\Http\Controllers\MemberController::class, 'getPermissions'])->name('project.members.getPermissions');
-        Route::post('/{project}/members/store', [\App\Http\Controllers\MemberController::class, 'store'])->name('project.members.store');
-        Route::get('/{project}/members/{user}/edit', [\App\Http\Controllers\MemberController::class, 'edit'])->name('project.members.edit');
-        Route::put('/{project}/members/update', [\App\Http\Controllers\MemberController::class, 'update'])->name('project.members.update');
-
-        //Route::get('/project/{project_id}/members', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
-
         Route::group([
             'as' => 'project.dashboard.',
             'prefix' => '/project',
         ], function() {
-
             Route::post('/{project}/board/store',  [\App\Http\Controllers\DashboardController::class, 'store'])->name('store');
             Route::get('/{project}/board/create',  [\App\Http\Controllers\DashboardController::class, 'create'])->name('create');
             Route::get('/{project}/board/{dashboard}', [\App\Http\Controllers\DashboardController::class, 'show'])->name('show');
@@ -69,6 +58,21 @@ Auth::routes();
             Route::put('/{task}/update', [\App\Http\Controllers\TaskController::class, 'update'])->name('update');
             Route::get('/{task}/show', [\App\Http\Controllers\TaskController::class, 'show'])->name('show');
         });
+
+        Route::group([
+            'as' => 'project.members.',
+            'prefix' => '/{project}/members',
+        ], function () {
+            Route::get('/', [\App\Http\Controllers\MemberController::class, 'index'])->name('index');
+            Route::get('/{user}/delete', [\App\Http\Controllers\MemberController::class, 'destroy'])->name('destroy');
+            Route::get('/create', [\App\Http\Controllers\MemberController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\MemberController::class, 'store'])->name('store');
+            Route::get('/{user}/edit', [\App\Http\Controllers\MemberController::class, 'edit'])->name('edit');
+            Route::put('/update', [\App\Http\Controllers\MemberController::class, 'update'])->name('update');
+        });
+        Route::post('/members/get-permissions', [\App\Http\Controllers\MemberController::class, 'getPermissions'])->name('project.members.getPermissions');
+
+        Route::get('/{project}/roles/index' , [\App\Http\Controllers\RoleController::class, 'index'])->name('project.roles.index');
 
     });
 

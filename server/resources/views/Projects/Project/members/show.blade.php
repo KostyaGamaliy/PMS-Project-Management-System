@@ -17,6 +17,7 @@
                         <th scope="col" class="text-center">Name</th>
                         <th scope="col" class="text-center">Status</th>
                         <th scope="col" class="text-center">Info</th>
+                        <th scope="col" class="text-center">Edit</th>
                         <th scope="col" class="text-center">Delete</th>
                     </tr>
                     </thead>
@@ -30,6 +31,14 @@
                             <td class="text-center">
                                 <a type="button" class="btn btn-primary" data-bs-toggle="modal"
                                    data-bs-target="#infoPeopleRole{{$user->id}}">INFO</a>
+                            </td>
+                            <td>
+                                <form method="GET" class="text-center" action="{{ route('home.project.members.edit', ['project' => $project, 'user' => $user]) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <button class="btn btn-success" type="submit">
+                                        EDIT
+                                    </button>
+                                </form>
                             </td>
                             <td class="text-center">
                                 @if(Auth::user()->id !== $user->id)

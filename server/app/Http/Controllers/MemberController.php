@@ -76,17 +76,26 @@ class MemberController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project, User $user)
     {
-        //
+        $roles = Role::all();
+
+        return view('Projects.Project.members.edit', compact('project', 'user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $rules = ['role_id' => 'int'];
+        $this->validate( $request, $rules);
+
+        DB::table('users')
+            ->where('id', $request->get('user_id'))
+            ->update(['role_id' => $request->get('role_id')]);
+
+        return redirect()->route('home.project.members.index', ['project' => $project]);
     }
 
     /**

@@ -39,7 +39,7 @@
                                 </form>
                             </td>
                             <td class="text-center">
-                                <a type="button" class="btn btn-danger" href="">Delete</a>
+                                <a type="button" class="btn btn-danger" href="{{ route('home.project.roles.destroy', ['project' => $project, 'role' => $role]) }}">Delete</a>
                             </td>
                         </tr>
 

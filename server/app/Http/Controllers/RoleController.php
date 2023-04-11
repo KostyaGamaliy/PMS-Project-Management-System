@@ -79,8 +79,13 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project, Role $role)
     {
-        //
+
+        $role->users()->update(['role_id' => null]);
+        $role->delete();
+        $roles = Role::all();
+
+        return redirect()->route('home.project.roles.index', ['project' => $project, 'roles' => $roles]);
     }
 }

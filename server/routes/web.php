@@ -75,6 +75,7 @@ Auth::routes();
         Route::get('/{project}/roles/index' , [\App\Http\Controllers\RoleController::class, 'index'])->name('project.roles.index');
         Route::get('/{project}/roles/{role}/edit' , [\App\Http\Controllers\RoleController::class, 'edit'])->name('project.roles.edit');
         Route::put('/{project}/roles/update' , [\App\Http\Controllers\RoleController::class, 'update'])->name('project.roles.update');
+        Route::get('/{project}/roles/{role}/delete' , [\App\Http\Controllers\RoleController::class, 'destroy'])->name('project.roles.destroy');
 
     });
 

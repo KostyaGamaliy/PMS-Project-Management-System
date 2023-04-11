@@ -73,8 +73,8 @@ Auth::routes();
         Route::post('/members/get-permissions', [\App\Http\Controllers\MemberController::class, 'getPermissions'])->name('project.members.getPermissions');
 
         Route::get('/{project}/roles/index' , [\App\Http\Controllers\RoleController::class, 'index'])->name('project.roles.index');
-        Route::get('/{project}/roles/delete' , [\App\Http\Controllers\RoleController::class, 'index'])->name('project.roles.index');
-        Route::get('/{project}/roles/edit' , [\App\Http\Controllers\RoleController::class, 'index'])->name('project.roles.index');
+        Route::get('/{project}/roles/{role}/edit' , [\App\Http\Controllers\RoleController::class, 'edit'])->name('project.roles.edit');
+        Route::put('/{project}/roles/update' , [\App\Http\Controllers\RoleController::class, 'update'])->name('project.roles.update');
 
     });
 

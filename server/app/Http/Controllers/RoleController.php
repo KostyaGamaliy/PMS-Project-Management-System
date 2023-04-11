@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use App\Models\Project;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -45,17 +47,33 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project, Role $role)
     {
-        //
+        $selectedRole = $role->permissions()->get(['id'])->pluck('id')->toArray();
+        $permissions = Permission::all();
+
+        return view('Projects.Project.roles.edit', compact('project', 'role', 'selectedRole', 'permissions'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $rules = ['name' => 'required|string|min:2|max:50', 'permission_id' => 'array'];
+        $this->validate( $request, $rules);
+        $roles = Role::all();
+        $role = Role::find($request->get('role_id'));
+        $permissions = $role->permissions()->get(['id'])->pluck('id')->toArray();
+
+        DB::table('roles')
+            ->where('id', $request->get('role_id'))
+            ->update(['name' => $request->get('name')]);
+
+        $role->permissions()->detach($permissions);
+        $role->permissions()->attach($request->get('permission_id'));
+
+        return redirect()->route('home.project.roles.index', ['project' => $project, 'roles' => $roles]);
     }
 
     /**

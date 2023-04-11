@@ -5,7 +5,7 @@
     <div id="content">
         <div class="container-fluid my-4">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Roles for this project</h1>
+                <h1 class="h3 mb-0 text-gray-800">Roles</h1>
                 <a href=""
                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fas fa-download fa-sm text-white-50"></i>Add a role</a>
@@ -31,7 +31,7 @@
                                    data-bs-target="#infoPeopleRole{{$role->id}}">INFO</a>
                             </td>
                             <td>
-                                <form method="GET" class="text-center" action="" enctype="multipart/form-data">
+                                <form method="GET" class="text-center" action="{{ route('home.project.roles.edit', ['project' => $project, 'role' => $role]) }}" enctype="multipart/form-data">
                                     @csrf
                                     <button class="btn btn-success" type="submit">
                                         EDIT

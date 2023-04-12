@@ -34,6 +34,8 @@ services:
             - ..:/var/www/
         networks:
           - laravel
+#        ports:
+#            - "9001:9000"
 
     artisan:
         container_name: laravel-artisan

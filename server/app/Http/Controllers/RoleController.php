@@ -15,7 +15,15 @@ class RoleController extends Controller
      */
     public function index(Project $project)
     {
-        $roles = Role::all();
+        $users = $project->users()->get();
+        $roles = [];
+
+        foreach ($users as $user) {
+            $role = $user->role()->first();
+            if ($role) {
+                $roles[] = $role;
+            }
+        }
 
         return view("Projects.Project.roles.index", compact('project', 'roles'));
     }
@@ -71,7 +79,15 @@ class RoleController extends Controller
     {
         $rules = ['name' => 'required|string|min:2|max:50', 'permission_id' => 'array'];
         $this->validate( $request, $rules);
-        $roles = Role::all();
+        $users = $project->users()->get();
+        $roles = [];
+
+        foreach ($users as $user) {
+            $role = $user->role()->first();
+            if ($role) {
+                $roles[] = $role;
+            }
+        }
         $role = Role::find($request->get('role_id'));
         $permissions = $role->permissions()->get(['id'])->pluck('id')->toArray();
 
@@ -93,7 +109,16 @@ class RoleController extends Controller
 
         $role->users()->update(['role_id' => null]);
         $role->delete();
-        $roles = Role::all();
+
+        $users = $project->users()->get();
+        $roles = [];
+
+        foreach ($users as $user) {
+            $role = $user->role()->first();
+            if ($role) {
+                $roles[] = $role;
+            }
+        }
 
         return redirect()->route('home.project.roles.index', ['project' => $project, 'roles' => $roles]);
     }

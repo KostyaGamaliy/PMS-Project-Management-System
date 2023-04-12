@@ -30,7 +30,14 @@ class MemberController extends Controller
             $query->where('project_id', $project->id);
         })->get();
 
-        $roles = Role::all();
+        $roles = [];
+
+        foreach ($users as $user) {
+            $role = $user->role()->first();
+            if ($role) {
+                $roles[] = $role;
+            }
+        }
 
         if ($request->has('role_id')) {
             $role = Role::findOrFail($request->input('role_id'));
@@ -78,7 +85,15 @@ class MemberController extends Controller
      */
     public function edit(Project $project, User $user)
     {
-        $roles = Role::all();
+        $users = $project->users()->get();
+        $roles = [];
+
+        foreach ($users as $user) {
+            $role = $user->role()->first();
+            if ($role) {
+                $roles[] = $role;
+            }
+        }
 
         return view('Projects.Project.members.edit', compact('project', 'user', 'roles'));
     }

@@ -65,7 +65,7 @@
             }
 
 
-            return redirect()->route('home.projects.index');
+            return redirect()->route('admin.projects.index');
         }
 
         /**
@@ -105,7 +105,7 @@
 
             $project->update($data);
 
-            return redirect()->route('home.projects.index');
+            return redirect()->route('admin.projects.index');
         }
 
         /**
@@ -120,6 +120,6 @@
             }
             $projects->delete();
 
-            return redirect()->route('home.projects.index');
+            return redirect()->route('admin.projects.index');
         }
     }

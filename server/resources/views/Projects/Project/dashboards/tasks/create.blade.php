@@ -18,7 +18,7 @@
 
         <div class="container mt-4 p-0">
             <form method="POST"
-                  action="{{ route('home.project.dashboard.task.store', ['project' => $project, 'dashboard' => $dashboard]) }}"
+                  action="{{ route('admin.project.dashboard.task.store', ['project' => $project, 'dashboard' => $dashboard]) }}"
                   enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" value="{{ Auth::user()->id }}" name="assigner_id">

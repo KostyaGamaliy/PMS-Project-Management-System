@@ -7,7 +7,7 @@
         </div>
 
         <div class="container mt-4 p-0">
-            <form method="POST" action="{{ route('home.project.dashboard.store', ['project' => $project]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.project.dashboard.store', ['project' => $project]) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <input type="hidden" name="project_id" value="{{ $project->id }}">

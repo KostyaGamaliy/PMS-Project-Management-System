@@ -16,22 +16,22 @@ use \Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
+    Route::get('/admin', function () {
+        return view('admin');
+    })->name('admin');
 
     Route::redirect('/', '/login');
 
-    Route::get('/home', function () {
+    Route::get('/admin', function () {
         if (session('status')) {
-            return redirect()->route('home')->with('status', session('status'));
+            return redirect()->route('admin')->with('status', session('status'));
         }
         return view('home');
-    })->name('home');
+    })->name('admin');
 
     Route::group([
-        'as' => 'home.',
-        'prefix' => 'home',
+        'as' => 'admin.',
+        'prefix' => 'admin',
     ], function() {
         Route::resource('projects', \App\Http\Controllers\ProjectController::class);
 
@@ -84,5 +84,5 @@ Auth::routes();
 
     });
 
-    Route::post('updateLastModal', [\App\Http\Controllers\HomeController::class, 'updateLastModal'])->name('home.updateLastModal');
+    Route::post('updateLastModal', [\App\Http\Controllers\HomeController::class, 'updateLastModal'])->name('admin.updateLastModal');
 

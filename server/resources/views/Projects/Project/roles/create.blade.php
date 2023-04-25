@@ -8,7 +8,7 @@
 
         <div class="container mt-4 p-0">
             <form method="POST"
-                  action="{{ route('home.project.roles.store', ['project' => $project]) }}"
+                  action="{{ route('admin.project.roles.store', ['project' => $project]) }}"
                   enctype="multipart/form-data">
                 @csrf
 
@@ -53,7 +53,7 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="{{ route('home.permission.store') }}"
+                <form method="POST" action="{{ route('admin.permission.store') }}"
                       enctype="multipart/form-data">
                     @csrf
 
@@ -68,7 +68,7 @@
                             type="text"
                             placeholder="Description of permission"
                             name="description"
-                            value="{{ old('name') }}"
+                            value="{{ old('description') }}"
                             class="@error('description') is-invalid @enderror"
                         >
 
@@ -90,7 +90,7 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="{{ route('home.permission.destroy') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.permission.destroy') }}" enctype="multipart/form-data">
                     @csrf
 
                     <div class="modal-header">
@@ -140,7 +140,7 @@
         $('.modal').on('shown.bs.modal', function () {
             var modal_id = $(this).attr('id');
             $.ajax({
-                url: '{{ route('home.updateLastModal') }}',
+                url: '{{ route('admin.updateLastModal') }}',
                 type: 'POST',
                 data: {
                     modal_id: modal_id,

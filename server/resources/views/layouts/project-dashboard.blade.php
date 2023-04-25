@@ -42,21 +42,21 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             @foreach($project->dashboards as $dashboard)
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('home.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]) }}">{{ $dashboard->name }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]) }}">{{ $dashboard->name }}</a>
                                 </li>
                             @endforeach
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ route('home.project.dashboard.create', ['project' => $project]) }}">Create new table</a>
+                            <a class="dropdown-item" href="{{ route('admin.project.dashboard.create', ['project' => $project]) }}">Create new table</a>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <a href="{{ route('home.project.members.index', ['project' => $project]) }}" class="nav-link text-white">
+                    <a href="{{ route('admin.project.members.index', ['project' => $project]) }}" class="nav-link text-white">
                         Members
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('home.project.roles.index', ['project' => $project]) }}" class="nav-link text-white">
+                    <a href="{{ route('admin.project.roles.index', ['project' => $project]) }}" class="nav-link text-white">
                         Roles
                     </a>
                 </li>
@@ -68,8 +68,8 @@
                     <strong>{{ Auth::user()->name }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="{{ route('home') }}">Home page</a></li>
-                    <li><a class="dropdown-item" href="{{ route('home.projects.index') }}">My projects</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin') }}">Home page</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.projects.index') }}">My projects</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li>
                         <hr class="dropdown-divider">

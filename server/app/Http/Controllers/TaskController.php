@@ -69,7 +69,7 @@ class TaskController extends Controller
 
         $task->update($data);
 
-        return redirect()->route('home.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
+        return redirect()->route('admin.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
     }
 
     /**
@@ -79,6 +79,6 @@ class TaskController extends Controller
     {
         $task->delete();
 
-        return redirect()->route('home.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
+        return redirect()->route('admin.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
     }
 }

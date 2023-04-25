@@ -7,7 +7,7 @@
         </div>
 
         <div class="container mt-4 p-0">
-            <form method="POST" action="{{ route('home.project.dashboard.task.update', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.project.dashboard.task.update', ['project' => $project, 'dashboard' => $dashboard, 'task' => $task]) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 {{--                <input type="hidden" value="{{ Auth::user()->id }}" name="assigner_id">--}}

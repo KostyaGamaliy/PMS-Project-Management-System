@@ -2,7 +2,7 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <form class="modal-content" method="POST"
-                  action="{{ route('home.projects.update', ['project' => $project]) }}"
+                  action="{{ route('admin.projects.update', ['project' => $project]) }}"
                   enctype="multipart/form-data">
                 @csrf
                 @method('PUT')

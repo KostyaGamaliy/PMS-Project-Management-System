@@ -7,7 +7,7 @@
         </div>
 
         <div class="container mt-4 p-0">
-            <form method="POST" action="{{ route('home.project.dashboard.update', ['project' => $project, 'dashboard' => $dashboard]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.project.dashboard.update', ['project' => $project, 'dashboard' => $dashboard]) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="mb-3">

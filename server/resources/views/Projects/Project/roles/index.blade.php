@@ -6,7 +6,7 @@
         <div class="container-fluid my-4">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Roles</h1>
-                <a href="{{ route('home.project.roles.create', ['project' => $project]) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <a href="{{ route('admin.project.roles.create', ['project' => $project]) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                     <i class="fas fa-download fa-sm text-white-50"></i>Add a role
                 </a>
             </div>
@@ -31,7 +31,7 @@
                                    data-bs-target="#infoPeopleRole{{$role->id}}">INFO</a>
                             </td>
                             <td>
-                                <form method="GET" class="text-center" action="{{ route('home.project.roles.edit', ['project' => $project, 'role' => $role]) }}" enctype="multipart/form-data">
+                                <form method="GET" class="text-center" action="{{ route('admin.project.roles.edit', ['project' => $project, 'role' => $role]) }}" enctype="multipart/form-data">
                                     @csrf
                                     <button class="btn btn-success" type="submit">
                                         EDIT
@@ -39,7 +39,7 @@
                                 </form>
                             </td>
                             <td class="text-center">
-                                <a type="button" class="btn btn-danger" href="{{ route('home.project.roles.destroy', ['project' => $project, 'role' => $role]) }}">Delete</a>
+                                <a type="button" class="btn btn-danger" href="{{ route('admin.project.roles.destroy', ['project' => $project, 'role' => $role]) }}">Delete</a>
                             </td>
                         </tr>
 

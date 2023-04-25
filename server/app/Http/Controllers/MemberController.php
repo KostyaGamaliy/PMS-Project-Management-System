@@ -30,14 +30,7 @@ class MemberController extends Controller
             $query->where('project_id', $project->id);
         })->get();
 
-        $roles = [];
-
-        foreach ($users as $user) {
-            $role = $user->role()->first();
-            if ($role) {
-                $roles[] = $role;
-            }
-        }
+        $roles = Role::all();
 
         if ($request->has('role_id')) {
             $role = Role::findOrFail($request->input('role_id'));
@@ -69,7 +62,7 @@ class MemberController extends Controller
 
         $project->users()->attach($request->get('user_id'));
 
-        return redirect()->route('home.project.members.index', ['project' => $project]);
+        return redirect()->route('admin.project.members.index', ['project' => $project]);
     }
 
     /**
@@ -110,7 +103,7 @@ class MemberController extends Controller
             ->where('id', $request->get('user_id'))
             ->update(['role_id' => $request->get('role_id')]);
 
-        return redirect()->route('home.project.members.index', ['project' => $project]);
+        return redirect()->route('admin.project.members.index', ['project' => $project]);
     }
 
     /**
@@ -120,6 +113,6 @@ class MemberController extends Controller
     {
         $user->projects()->detach($project->id);
 
-        return redirect()->route('home.project.members.index', ['project' => $project]);
+        return redirect()->route('admin.project.members.index', ['project' => $project]);
     }
 }

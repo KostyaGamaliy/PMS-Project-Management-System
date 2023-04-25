@@ -50,7 +50,7 @@ class RoleController extends Controller
 
         $role->permissions()->attach($request->get('permission_id'));
 
-        return redirect()->route('home.project.roles.index', ['project' => $project]);
+        return redirect()->route('admin.project.roles.index', ['project' => $project]);
     }
 
     /**
@@ -98,7 +98,7 @@ class RoleController extends Controller
         $role->permissions()->detach($permissions);
         $role->permissions()->attach($request->get('permission_id'));
 
-        return redirect()->route('home.project.roles.index', ['project' => $project, 'roles' => $roles]);
+        return redirect()->route('admin.project.roles.index', ['project' => $project, 'roles' => $roles]);
     }
 
     /**
@@ -120,6 +120,6 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('home.project.roles.index', ['project' => $project, 'roles' => $roles]);
+        return redirect()->route('admin.project.roles.index', ['project' => $project, 'roles' => $roles]);
     }
 }

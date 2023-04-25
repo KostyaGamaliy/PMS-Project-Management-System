@@ -7,7 +7,7 @@
         </div>
 
         <div class="container mt-4 p-0">
-            <form method="POST" action="{{ route('home.project.members.update', ['project' => $project]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.project.members.update', ['project' => $project]) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="user_id" value="{{ $user->id }}">
@@ -53,7 +53,7 @@
     <script>
         window.onload = function () {
             $('#inputRole').change(function (e) {
-                axios.post('{{ route('home.project.members.getPermissions') }}', {
+                axios.post('{{ route('admin.project.members.getPermissions') }}', {
                     'role_id': document.getElementById('inputRole').value
                 })
                     .then(function (response) {

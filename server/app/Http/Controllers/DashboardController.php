@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
         //$dashboard->projects->attach($project->id);
 
-        return redirect()->route('home.projects.show', ['project' => $project]);
+        return redirect()->route('admin.projects.show', ['project' => $project]);
     }
 
     /**
@@ -70,7 +70,7 @@ class DashboardController extends Controller
 
         $dashboard->update($data);
 
-        return redirect()->route('home.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
+        return redirect()->route('admin.project.dashboard.show', ['project' => $project, 'dashboard' => $dashboard]);
     }
 
     /**
@@ -81,6 +81,6 @@ class DashboardController extends Controller
         //dd($project, $dashboard);
         $dashboard->delete();
 
-        return redirect()->route('home.projects.show', ['project' => $project]);
+        return redirect()->route('admin.projects.show', ['project' => $project]);
     }
 }

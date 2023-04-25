@@ -6,7 +6,8 @@
         <div class="container-fluid my-4">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">People working on the project</h1>
-                <a href="{{ route('home.project.members.create', ['project' => $project]) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                <a href="{{ route('admin.project.members.create', ['project' => $project]) }}"
+                   class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fas fa-download fa-sm text-white-50"></i>Add a participant to the project</a>
             </div>
             <div class="rounded-1">
@@ -27,13 +28,19 @@
                         <tr>
                             <th scope="row">{{ $user->id }}</th>
                             <td class="text-center">{{ $user->name }}</td>
-                            <td class="text-center">{{ $user->role->name }}</td>
+                            @if($user->role)
+                                <td class="text-center">{{ $user->role->name }}</td>
+                            @else
+                                <td></td>
+                            @endif
                             <td class="text-center">
                                 <a type="button" class="btn btn-primary" data-bs-toggle="modal"
                                    data-bs-target="#infoPeopleRole{{$user->id}}">INFO</a>
                             </td>
                             <td>
-                                <form method="GET" class="text-center" action="{{ route('home.project.members.edit', ['project' => $project, 'user' => $user]) }}" enctype="multipart/form-data">
+                                <form method="GET" class="text-center"
+                                      action="{{ route('admin.project.members.edit', ['project' => $project, 'user' => $user]) }}"
+                                      enctype="multipart/form-data">
                                     @csrf
                                     <button class="btn btn-success" type="submit">
                                         EDIT
@@ -42,18 +49,22 @@
                             </td>
                             <td class="text-center">
                                 @if(Auth::user()->id !== $user->id)
-                                    <a type="button" class="btn btn-danger" href="{{ route('home.project.members.destroy', ['project' => $project, 'user' => $user]) }}">Remove from the project</a>
+                                    <a type="button" class="btn btn-danger"
+                                       href="{{ route('admin.project.members.destroy', ['project' => $project, 'user' => $user]) }}">Remove
+                                        from the project</a>
                                 @endif
                             </td>
                         </tr>
 
-                        <div class="modal fade" id="infoPeopleRole{{$user->id}}" tabindex="-1" aria-labelledby="infoPeopleRole{{$user->id}}"
+                        <div class="modal fade" id="infoPeopleRole{{$user->id}}" tabindex="-1"
+                             aria-labelledby="infoPeopleRole{{$user->id}}"
                              aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Info</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
@@ -69,7 +80,11 @@
                                                 <h4>Role name:</h4>
                                             </div>
                                             <div class="col-8">
-                                                <h3>{{ $user->role->name }}</h3>
+                                                @if($user->role)
+                                                    <h3>{{ $user->role->name }}</h3>
+                                                @else
+                                                    <h3></h3>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">
@@ -77,15 +92,20 @@
                                                 <h4>Role permissions:</h4>
                                             </div>
                                             <div class="col-8">
-                                                @foreach($user->role->permissions as $permission)
-                                                    <h3>{{ $permission->description }}</h3>
-                                                @endforeach
+                                                @if($user->role)
+                                                    @foreach($user->role->permissions as $permission)
+                                                        <h3>{{ $permission->description }}</h3>
+                                                    @endforeach
+                                                @else
+                                                    <h3></h3>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
                                     </div>
                                 </div>
                             </div>

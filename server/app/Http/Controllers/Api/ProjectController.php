@@ -1,65 +1,91 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+    namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+    use App\Http\Controllers\Controller;
+    use App\Http\Resources\ProjectResource;
+    use App\Models\Project;
+    use App\Models\User;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
 
-class ProjectController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    class ProjectController extends Controller
     {
-        //
-    }
+        /**
+         * Display a listing of the resource.
+         */
+        public function index(Request $request)
+        {
+//            if (!Auth::check()) {
+//                return response('Unauthorized', 401);
+//            }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+            $searchTerm = $request->query('search');
+            $perPage = $request->query('perPage') ?? 10;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            $user = User::find($request->query('userId'));
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+            if (!empty($searchTerm)) {
+                $projects = $user->projects()->where('name', 'like', "%$searchTerm%")->paginate($perPage);
+            } else {
+                $projects = $user->projects()->paginate($perPage);
+            }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+            return ProjectResource::collection($projects)->additional([
+                'pagination' => [
+                    'currentPage' => $projects->currentPage(),
+                    'perPage' => $projects->perPage(),
+                    'totalPages' => $projects->lastPage(),
+                    'totalItems' => $projects->total(),
+                ]
+            ]);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        /**
+         * Show the form for creating a new resource.
+         */
+        public function create()
+        {
+            //
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        /**
+         * Store a newly created resource in storage.
+         */
+        public function store(Request $request)
+        {
+            //
+        }
+
+        /**
+         * Display the specified resource.
+         */
+        public function show(string $id)
+        {
+            //
+        }
+
+        /**
+         * Show the form for editing the specified resource.
+         */
+        public function edit(string $id)
+        {
+            //
+        }
+
+        /**
+         * Update the specified resource in storage.
+         */
+        public function update(Request $request, string $id)
+        {
+            //
+        }
+
+        /**
+         * Remove the specified resource from storage.
+         */
+        public function destroy(string $id)
+        {
+            //
+        }
     }
-}

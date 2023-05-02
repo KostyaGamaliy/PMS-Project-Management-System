@@ -4,6 +4,7 @@
 
     use App\Http\Controllers\Controller;
     use App\Http\Requests\LoginRequest;
+    use App\Http\Requests\RegisterRequest;
     use App\Http\Resources\UserResource;
     use App\Models\User;
     use Illuminate\Http\Request;
@@ -15,8 +16,8 @@
     {
         public function login(LoginRequest $request)
         {
-            $data = $request->validated();
             $deviceName = $request->device_name;
+
             $user = User::where('email', $request->email)->first();
 
             if (!$user || !Hash::check($request->password, $user->password)) {
@@ -24,6 +25,7 @@
                     'password' => ['The provided credentials are incorrect.'],
                 ]);
             }
+
             Auth::login($user);
 
             $user->tokens()
@@ -37,21 +39,14 @@
             ];
         }
 
-        public function register(registerRequest $request)
+        public function register(RegisterRequest $request)
         {
-            $data = $request->validated();
-            $login = $data['email'];
-            $name = $data['name'];
-            $password = $data['password'];
-            $password_confirmation = $data['password_confirmation'];
-            $deviceName = $data['device_name'];
-
+            $deviceName = $request->device_name;
 
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role_id'=> 3,
             ]);
 
             $user->tokens()
@@ -78,16 +73,5 @@
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             return response()->json(['message' => 'Logged out']);
-        }
-
-        public function user(Request $request)
-        {
-            if (Auth::check()) {
-                return [
-                    'user' => new UserResource(Auth::user()),
-                    'x-xsrf-token' => $request->headers->get('x-xsrf-token')];
-            } else {
-                return response()->json(['error' => 'Unauthenticated.'], 401);
-            }
         }
     }

@@ -37,6 +37,7 @@
 
     Route::get('/projects/{id}/tasks', [TaskController::class, 'index']);
     Route::get('/projects/tasks/{id}', [TaskController::class, 'show']);
+    Route::post('/projects/tasks/store', [TaskController::class, 'store']);
     Route::put('/projects/tasks/{id}/update', [TaskController::class, 'update']);
     Route::delete('/projects/tasks/{id}/destroy', [TaskController::class, 'destroy']);
 

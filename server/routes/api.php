@@ -1,6 +1,7 @@
 <?php
 
     use App\Http\Controllers\Api\DashboardController;
+    use App\Http\Controllers\Api\MemberController;
     use App\Http\Controllers\Api\RoleController;
     use App\Http\Controllers\Api\TaskController;
     use Illuminate\Http\Request;
@@ -49,3 +50,5 @@
     Route::delete('/projects/dashboards/{id}/destroy', [DashboardController::class, 'destroy']);
 
     Route::get('/roles', [RoleController::class, 'index']);
+
+    Route::get('/projects/members/{memberId}', [MemberController::class, 'show']);

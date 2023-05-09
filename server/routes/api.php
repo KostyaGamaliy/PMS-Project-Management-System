@@ -1,6 +1,7 @@
 <?php
 
     use App\Http\Controllers\Api\DashboardController;
+    use App\Http\Controllers\Api\RoleController;
     use App\Http\Controllers\Api\TaskController;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Route;
@@ -46,3 +47,5 @@
     Route::post('/projects/{id}/dashboards/store', [DashboardController::class, 'store']);
     Route::put('/projects/dashboards/{id}/update', [DashboardController::class, 'update']);
     Route::delete('/projects/dashboards/{id}/destroy', [DashboardController::class, 'destroy']);
+
+    Route::get('/roles', [RoleController::class, 'index']);

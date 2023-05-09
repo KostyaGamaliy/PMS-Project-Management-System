@@ -23,7 +23,7 @@ class UpdateTaskRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|required|string|min:3|max:100',
-            'descriptions' => 'string|min:5|max:1000',
+            'description' => 'string|min:5|max:1000',
             'status' => 'string|min:3|max:50',
             'user_id' => 'integer|exists:users,id',
             'assigner_id' => 'sometimes|required|integer|exists:users,id',

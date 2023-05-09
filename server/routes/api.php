@@ -36,6 +36,7 @@
     Route::delete('/projects/{project}/destroy', [ProjectController::class, 'destroy']);
 
     Route::get('/projects/{id}/tasks', [TaskController::class, 'index']);
+    Route::get('/projects/tasks/{id}', [TaskController::class, 'show']);
     Route::delete('/projects/tasks/{id}/destroy', [TaskController::class, 'destroy']);
 
     Route::get('/projects/{id}/dashboards', [DashboardController::class, 'index']);

@@ -42,3 +42,5 @@
     Route::delete('/projects/tasks/{id}/destroy', [TaskController::class, 'destroy']);
 
     Route::get('/projects/{id}/dashboards', [DashboardController::class, 'index']);
+    Route::get('/projects/{projectId}/dashboards/{dashboardId}', [DashboardController::class, 'show']);
+    Route::put('/projects/dashboards/{id}/update', [DashboardController::class, 'update']);

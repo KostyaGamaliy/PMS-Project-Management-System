@@ -16,4 +16,9 @@ class MemberController extends Controller
 
         return response()->json(['member' => $member, 'role' => $role, 'permissions' => $permissions]);
     }
+
+    public function destroy($projectId, $memberId) {
+        $user = User::find($memberId);
+        $user->projects()->detach($projectId);
+    }
 }

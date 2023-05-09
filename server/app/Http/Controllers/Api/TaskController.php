@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Dashboard;
 use App\Models\Project;
@@ -19,6 +20,14 @@ class TaskController extends Controller
 
     public function show($id) {
         $task = Task::find($id);
+        return new TaskResource($task);
+    }
+
+    public function update(UpdateTaskRequest $request, $id) {
+        $task = Task::findOrFail($id);
+        $data = $request->validated();
+        $task->update($data);
+
         return new TaskResource($task);
     }
 

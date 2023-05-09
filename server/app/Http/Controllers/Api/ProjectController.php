@@ -79,20 +79,7 @@
             $project = Project::findOrFail($id);
             $data = $request->validated();
             $project->update($data);
-//            $data = $request->except('_token', '_method');
-//
-//            $fieldNames = $project->getAttributes();
 
-//            if (isset($data['preview_image'])) {
-//                if (!is_null($fieldNames['preview_image'])) {
-//                    Storage::disk('public')->delete($project->preview_image);
-//                }
-//
-//                $image = $request->file('preview_image');
-//                $data['preview_image'] = $image->store('images', 'public');
-//            }
-
-//            $project->update($data);
             return new ProjectResource($project);
         }
 

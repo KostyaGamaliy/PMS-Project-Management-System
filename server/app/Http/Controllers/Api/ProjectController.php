@@ -3,11 +3,13 @@
     namespace App\Http\Controllers\Api;
 
     use App\Http\Controllers\Controller;
+    use App\Http\Requests\UpdateProjectRequest;
     use App\Http\Resources\ProjectResource;
     use App\Models\Project;
     use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Storage;
 
     class ProjectController extends Controller
     {
@@ -16,10 +18,6 @@
          */
         public function index(Request $request)
         {
-//            if (!Auth::check()) {
-//                return response('Unauthorized', 401);
-//            }
-
             $searchTerm = $request->query('search');
             $perPage = $request->query('perPage') ?? 10;
 
@@ -60,9 +58,9 @@
         /**
          * Display the specified resource.
          */
-        public function show(string $id)
+        public function show(Project $project)
         {
-            //
+            return new ProjectResource($project);
         }
 
         /**
@@ -76,9 +74,26 @@
         /**
          * Update the specified resource in storage.
          */
-        public function update(Request $request, string $id)
+        public function update(UpdateProjectRequest $request, $id)
         {
-            //
+            $project = Project::findOrFail($id);
+            $data = $request->validated();
+            $project->update($data);
+//            $data = $request->except('_token', '_method');
+//
+//            $fieldNames = $project->getAttributes();
+
+//            if (isset($data['preview_image'])) {
+//                if (!is_null($fieldNames['preview_image'])) {
+//                    Storage::disk('public')->delete($project->preview_image);
+//                }
+//
+//                $image = $request->file('preview_image');
+//                $data['preview_image'] = $image->store('images', 'public');
+//            }
+
+//            $project->update($data);
+            return new ProjectResource($project);
         }
 
         /**
@@ -86,6 +101,11 @@
          */
         public function destroy(string $id)
         {
-            //
+            $projects = Project::find($id);
+
+            if ($projects->preview_image !== "images/default-img-for-project.jpg") {
+                Storage::disk('public')->delete($projects->preview_image);
+            }
+            $projects->delete();
         }
     }

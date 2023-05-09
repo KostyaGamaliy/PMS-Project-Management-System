@@ -1,5 +1,7 @@
 <?php
 
+    use App\Http\Controllers\Api\DashboardController;
+    use App\Http\Controllers\Api\TaskController;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Route;
     use App\Http\Controllers\Api\AuthController;
@@ -29,3 +31,11 @@
     Route::post('/auth/register', [AuthController::class, 'register']);
 
     Route::get('/projects', [ProjectController::class, 'index']);
+    Route::get('/projects/{project}', [ProjectController::class, 'show']);
+    Route::put('/projects/{project}/update', [ProjectController::class, 'update']);
+    Route::delete('/projects/{project}/destroy', [ProjectController::class, 'destroy']);
+
+    Route::get('/projects/{id}/tasks', [TaskController::class, 'index']);
+    Route::delete('/projects/tasks/{id}/destroy', [TaskController::class, 'destroy']);
+
+    Route::get('/projects/{id}/dashboards', [DashboardController::class, 'index']);

@@ -37,4 +37,9 @@ class DashboardController extends Controller
 
         return new DashboardResource($dashboard);
     }
+
+    public function destroy($id) {
+        $dashboard = Dashboard::find($id);
+        $dashboard->delete();
+    }
 }

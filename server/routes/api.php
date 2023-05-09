@@ -43,4 +43,6 @@
 
     Route::get('/projects/{id}/dashboards', [DashboardController::class, 'index']);
     Route::get('/projects/{projectId}/dashboards/{dashboardId}', [DashboardController::class, 'show']);
+    Route::post('/projects/{id}/dashboards/store', [DashboardController::class, 'store']);
     Route::put('/projects/dashboards/{id}/update', [DashboardController::class, 'update']);
+    Route::delete('/projects/dashboards/{id}/destroy', [DashboardController::class, 'destroy']);

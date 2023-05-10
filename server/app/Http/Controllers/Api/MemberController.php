@@ -35,6 +35,30 @@ class MemberController extends Controller
         return response()->json(['roles' => $roles]);
     }
 
+    public function create($projectId) {
+        $users = User::whereDoesntHave('projects', function ($query) use ($projectId){
+            $query->where('project_id', $projectId);
+        })->get();
+
+        $roles = Role::all();
+
+        foreach ($roles as $role) {
+            $role->permissions = $role->permissions;
+        }
+
+        return response()->json(['users' => $users, 'roles' => $roles]);
+    }
+
+    public function store($id) {
+        $project = Project::findOrFail($id);
+
+        DB::table('users')
+            ->where('id', request()->input('user_id'))
+            ->update(['role_id' => request()->input('role_id')]);
+
+        $project->users()->attach(request()->input('user_id'));
+    }
+
     public function update($memberId, $roleId) {
         DB::table('users')
             ->where('id', $memberId)

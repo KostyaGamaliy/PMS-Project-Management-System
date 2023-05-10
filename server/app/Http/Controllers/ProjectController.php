@@ -4,6 +4,7 @@
 
     use App\Http\Requests\StoreProjectRequest;
     use App\Http\Requests\UpdateProjectRequest;
+    use App\Jobs\SendCreateProjectJob;
     use App\Models\Dashboard;
     use App\Models\Role;
     use Illuminate\Support\Facades\Auth;
@@ -47,23 +48,26 @@
             $data = $request->except('_token');
 
             $userId = $request->get('user_id');
+            $user = User::find($request->get('user_id'));
 
             if ($request->hasFile('preview_image')) {
                 $image = $request->file('preview_image');
                 $data['preview_image'] = $image->store('images', 'public');
+            } else {
+                $data['preview_image'] = 'images/default-img-for-project.jpg';
             }
 
             $project = Project::create($data);
 
             $project->users()->attach($userId);
 
-            foreach($project->users as $user) {
-                Mail::send('emails.project-create', ['project' => $project], function ($message) use ($user) {
-                    $message->to($user->email, $user->name)->subject('Make a new project');
-                    $message->from('kostya.example@gmail.com', 'FROM PALMO');
-                });
-            }
+            $emailData = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'project' => $project
+            ];
 
+            SendCreateProjectJob::dispatch($emailData);
 
             return redirect()->route('admin.projects.index');
         }

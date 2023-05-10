@@ -3,12 +3,15 @@
     namespace App\Http\Controllers\Api;
 
     use App\Http\Controllers\Controller;
+    use App\Http\Requests\StoreProjectRequest;
     use App\Http\Requests\UpdateProjectRequest;
     use App\Http\Resources\ProjectResource;
+    use App\Jobs\SendCreateProjectJob;
     use App\Models\Project;
     use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Mail;
     use Illuminate\Support\Facades\Storage;
 
     class ProjectController extends Controller
@@ -39,41 +42,34 @@
             ]);
         }
 
-        /**
-         * Show the form for creating a new resource.
-         */
-        public function create()
+        public function store()
         {
-            //
+            $userId = request()->input('user_id');
+            $user = User::find(request()->input('user_id'));
+
+            $data['name'] = request()->input('name');
+            $data['descriptions'] = request()->input('descriptions');
+
+            $data['preview_image'] = 'images/default-img-for-project.jpg';
+
+            $project = Project::create($data);
+
+            $project->users()->attach($userId);
+
+            $emailData = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'project' => $project
+            ];
+
+            SendCreateProjectJob::dispatch($emailData);
         }
 
-        /**
-         * Store a newly created resource in storage.
-         */
-        public function store(Request $request)
-        {
-            //
-        }
-
-        /**
-         * Display the specified resource.
-         */
         public function show(Project $project)
         {
             return new ProjectResource($project);
         }
 
-        /**
-         * Show the form for editing the specified resource.
-         */
-        public function edit(string $id)
-        {
-            //
-        }
-
-        /**
-         * Update the specified resource in storage.
-         */
         public function update(UpdateProjectRequest $request, $id)
         {
             $project = Project::findOrFail($id);
@@ -83,9 +79,6 @@
             return new ProjectResource($project);
         }
 
-        /**
-         * Remove the specified resource from storage.
-         */
         public function destroy(string $id)
         {
             $projects = Project::find($id);

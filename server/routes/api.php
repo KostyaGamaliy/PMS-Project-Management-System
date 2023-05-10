@@ -52,4 +52,6 @@
     Route::get('/roles', [RoleController::class, 'index']);
 
     Route::get('/projects/members/{memberId}', [MemberController::class, 'show']);
+    Route::get('/projects/{id}/members/edit', [MemberController::class, 'edit']);
+    Route::put('/projects/members/{memberId}/update/{roleId}', [MemberController::class, 'update']);
     Route::delete('/projects/{projectId}/members/{memberId}/destroy', [MemberController::class, 'destroy']);

@@ -42,15 +42,20 @@
             ]);
         }
 
-        public function store()
+        public function store(Request $request)
         {
-            $userId = request()->input('user_id');
-            $user = User::find(request()->input('user_id'));
+            $userId = $request->input('user_id');
+            $user = User::find($request->input('user_id'));
 
-            $data['name'] = request()->input('name');
-            $data['descriptions'] = request()->input('descriptions');
+            $data['name'] = $request->input('name');
+            $data['descriptions'] = $request->input('descriptions');
 
-            $data['preview_image'] = 'images/default-img-for-project.jpg';
+            if ($request->hasFile('preview_image')) {
+                $image = $request->file('preview_image');
+                $data['preview_image'] = $image->store('images', 'public');
+            } else {
+                $data['preview_image'] = 'images/default-img-for-project.jpg';
+            }
 
             $project = Project::create($data);
 
@@ -73,7 +78,17 @@
         public function update(UpdateProjectRequest $request, $id)
         {
             $project = Project::findOrFail($id);
-            $data = $request->validated();
+
+            $data['name'] = request()->input('name');
+            $data['descriptions'] = $request->input('descriptions');
+
+            if ($request->hasFile('preview_image')) {
+                $image = $request->file('preview_image');
+                $data['preview_image'] = $image->store('images', 'public');
+            } else {
+                $data['preview_image'] = 'images/default-img-for-project.jpg';
+            }
+
             $project->update($data);
 
             return new ProjectResource($project);

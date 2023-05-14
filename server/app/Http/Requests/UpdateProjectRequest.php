@@ -44,8 +44,8 @@ class UpdateProjectRequest extends FormRequest
             'description.min' => 'This field must be longer than 5 characters',
             'description.max' => 'This field must be less than 1000 characters long',
             'preview_image.required' => 'This field must be filled in',
-            'preview_image.image' => 'this field should be a picture',
-            'preview_image.mimes' => 'this field must be named with the extension: jpeg,png,jpg,gif,svg',
+            'preview_image.image' => 'This field should be a picture',
+            'preview_image.mimes' => 'This field must be named with the extension: jpeg,png,jpg,gif,svg',
             'preview_image.max' => 'The size of the picture must be less than 2048',
         ];
     }

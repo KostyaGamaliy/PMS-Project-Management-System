@@ -35,7 +35,7 @@
     Route::get('/projects', [ProjectController::class, 'index']);
     Route::post('/projects/store', [ProjectController::class, 'store']);
     Route::get('/projects/{project}', [ProjectController::class, 'show']);
-    Route::put('/projects/{project}/update', [ProjectController::class, 'update']);
+    Route::post('/projects/{project}/update', [ProjectController::class, 'update']);
     Route::delete('/projects/{project}/destroy', [ProjectController::class, 'destroy']);
 
     Route::get('/projects/{id}/tasks', [TaskController::class, 'index']);

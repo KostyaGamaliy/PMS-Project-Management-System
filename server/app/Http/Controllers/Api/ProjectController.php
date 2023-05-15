@@ -22,15 +22,21 @@
         public function index(Request $request)
         {
             $searchTerm = $request->query('search');
+            $isDateSort = $request->query('byDate');
             $perPage = $request->query('perPage') ?? 10;
-
             $user = User::find($request->query('userId'));
 
-            if (!empty($searchTerm)) {
-                $projects = $user->projects()->where('name', 'like', "%$searchTerm%")->paginate($perPage);
-            } else {
-                $projects = $user->projects()->paginate($perPage);
+            $projects = $user->projects();
+
+            if ($isDateSort === 'true') {
+                $projects->orderBy('created_at', 'desc');
             }
+
+            if (!empty($searchTerm)) {
+                $projects->where('name', 'like', "%$searchTerm%");
+            }
+
+            $projects = $projects->paginate($perPage);
 
             return ProjectResource::collection($projects)->additional([
                 'pagination' => [

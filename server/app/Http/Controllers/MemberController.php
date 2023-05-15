@@ -30,22 +30,9 @@ class MemberController extends Controller
             $query->where('project_id', $project->id);
         })->get();
 
-        $roles = Role::all();
+        $roles = $project->roles;
 
-        if ($request->has('role_id')) {
-            $role = Role::findOrFail($request->input('role_id'));
-
-            $permissions = $role->permissions;
-        }
-
-        return view('Projects.Project.members.create', ['project' => $project, 'users' => $users, 'roles' => $roles, 'permissions' => $permissions ?? []]);
-    }
-
-    public function getPermissions(Request $request) {
-        $role = Role::findOrFail($request->input('role_id'));
-        $permissions = $role->permissions;
-
-        return $permissions;
+        return view('Projects.Project.members.create', ['project' => $project, 'users' => $users, 'roles' => $roles]);
     }
 
     /**

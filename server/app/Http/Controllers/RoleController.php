@@ -15,15 +15,7 @@ class RoleController extends Controller
      */
     public function index(Project $project)
     {
-        $users = $project->users()->get();
-        $roles = [];
-
-        foreach ($users as $user) {
-            $role = $user->role()->first();
-            if ($role) {
-                $roles[] = $role;
-            }
-        }
+        $roles = $project->roles()->get();
 
         return view("Projects.Project.roles.index", compact('project', 'roles'));
     }
@@ -33,9 +25,7 @@ class RoleController extends Controller
      */
     public function create(Project $project)
     {
-        $permissions = Permission::all();
-
-        return view("Projects.Project.roles.create", ['project' => $project, 'permissions' => $permissions]);
+        return view("Projects.Project.roles.create", ['project' => $project]);
     }
 
     /**
@@ -43,12 +33,13 @@ class RoleController extends Controller
      */
     public function store(Request $request, Project $project)
     {
-        $rules = ['name' => 'required|string|min:5|max:125', 'permission_id' => 'array'];
+        $rules = ['name' => 'required|string|min:5|max:125'];
         $this->validate( $request, $rules);
 
-        $role = Role::create(['name' => $request->get('name')]);
+        $data['name'] = $request->get('name');
+        $data['project_id'] = $project->id;
 
-        $role->permissions()->attach($request->get('permission_id'));
+        $role = Role::create($data);
 
         return redirect()->route('admin.project.roles.index', ['project' => $project]);
     }
@@ -66,10 +57,7 @@ class RoleController extends Controller
      */
     public function edit(Project $project, Role $role)
     {
-        $selectedRole = $role->permissions()->get(['id'])->pluck('id')->toArray();
-        $permissions = Permission::all();
-
-        return view('Projects.Project.roles.edit', compact('project', 'role', 'selectedRole', 'permissions'));
+        return view('Projects.Project.roles.edit', compact('project', 'role'));
     }
 
     /**
@@ -77,26 +65,14 @@ class RoleController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $rules = ['name' => 'required|string|min:2|max:50', 'permission_id' => 'array'];
+        $rules = ['name' => 'required|string|min:2|max:50'];
         $this->validate( $request, $rules);
-        $users = $project->users()->get();
-        $roles = [];
 
-        foreach ($users as $user) {
-            $role = $user->role()->first();
-            if ($role) {
-                $roles[] = $role;
-            }
-        }
-        $role = Role::find($request->get('role_id'));
-        $permissions = $role->permissions()->get(['id'])->pluck('id')->toArray();
+        $roles = $project->roles;
 
         DB::table('roles')
             ->where('id', $request->get('role_id'))
             ->update(['name' => $request->get('name')]);
-
-        $role->permissions()->detach($permissions);
-        $role->permissions()->attach($request->get('permission_id'));
 
         return redirect()->route('admin.project.roles.index', ['project' => $project, 'roles' => $roles]);
     }
@@ -106,19 +82,9 @@ class RoleController extends Controller
      */
     public function destroy(Project $project, Role $role)
     {
-
-        $role->users()->update(['role_id' => null]);
         $role->delete();
 
-        $users = $project->users()->get();
-        $roles = [];
-
-        foreach ($users as $user) {
-            $role = $user->role()->first();
-            if ($role) {
-                $roles[] = $role;
-            }
-        }
+        $roles = $project->roles();
 
         return redirect()->route('admin.project.roles.index', ['project' => $project, 'roles' => $roles]);
     }

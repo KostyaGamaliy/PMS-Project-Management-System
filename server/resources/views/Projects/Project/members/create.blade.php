@@ -6,16 +6,6 @@
             Add a participant to the project
         </div>
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <div class="container mt-4 p-0">
             <form method="POST"
                   action="{{ route('admin.project.members.store', ['project' => $project]) }}"
@@ -54,42 +44,9 @@
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
 
-                <div class="mb-3" id="permissions-select"></div>
-
                 <button type="submit" class="btn btn-outline-primary shadow-none">Add</button>
 
             </form>
         </div>
     </div>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-        window.onload = function () {
-            $('#inputRole').change(function (e) {
-                axios.post('{{ route('admin.project.members.getPermissions') }}', {
-                    'role_id': document.getElementById('inputRole').value
-                })
-                    .then(function (response) {
-                        console.log(response.data);
-
-                        var permissionsdiv = document.getElementById('permissions-select');
-                        var html = `<label for="permission_id" class="form-label">Permissions</label>
-                            <select class="form-select shadow-none @error('permission_id') is-invalid @enderror"
-                            name="permission_id"
-                            id="inputPermission"
-                            multiple
-                            disabled
-                            name="permissions[]">`;
-                        for (var i = 0; i < response.data.length; i++) {
-                            var permission = response.data[i];
-                            html += `<option value="${permission.id}" ${permission.selected ? 'selected' : ''}>${permission.description}</option>`;
-                        }
-                        html += `</select>`;
-                        permissionsdiv.innerHTML = html;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            })
-        }
-    </script>
 @endsection

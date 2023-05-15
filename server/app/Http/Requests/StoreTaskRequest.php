@@ -49,8 +49,8 @@ class StoreTaskRequest extends FormRequest
             'status.string' => 'This field should be a string',
             'status.min' => 'This field must be longer than 3 characters',
             'status.max' => 'This field must be less than 50 characters long',
-            'assigner_id' => 'This 1 field must be filled in',
-            'dashboard_id' => 'This 2 field must be filled in',
+            'assigner_id' => 'This field must be filled in',
+            'dashboard_id' => 'This field must be filled in',
         ];
     }
 }

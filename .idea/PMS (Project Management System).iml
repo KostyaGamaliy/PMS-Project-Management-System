@@ -116,6 +116,15 @@
       <excludeFolder url="file://$MODULE_DIR$/server/vendor/nette/utils" />
       <excludeFolder url="file://$MODULE_DIR$/server/vendor/egulias/email-validator" />
       <excludeFolder url="file://$MODULE_DIR$/server/vendor/laravel/ui" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/pusher/pusher-php-server" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/paragonie/sodium_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/dompdf/dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/masterminds/html5" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/sabberworm/php-css-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/barryvdh/laravel-dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/phenx/php-svg-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor/phenx/php-font-lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

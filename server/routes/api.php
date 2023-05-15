@@ -58,3 +58,5 @@
     Route::post('/projects/{id}/members/store', [MemberController::class, 'store']);
     Route::put('/projects/members/{memberId}/update/{roleId}', [MemberController::class, 'update']);
     Route::delete('/projects/{projectId}/members/{memberId}/destroy', [MemberController::class, 'destroy']);
+
+    Route::get('/pdf-download/{project}', [ProjectController::class, 'downloadPDF']);

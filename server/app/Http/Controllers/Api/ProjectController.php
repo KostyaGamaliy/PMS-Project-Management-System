@@ -13,6 +13,7 @@
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Mail;
     use Illuminate\Support\Facades\Storage;
+    use Pusher\Pusher;
 
     class ProjectController extends Controller
     {
@@ -108,5 +109,25 @@
                 Storage::disk('public')->delete($projects->preview_image);
             }
             $projects->delete();
+        }
+
+        public function downloadPDF(Project $project)
+        {
+            $data = [
+                'project' => $project
+            ];
+
+            $pdf = app()->make('dompdf.wrapper');
+            $pdf->loadView('pdf.download', $data);
+            $pdfUrl = storage_path('app/public/project_report.pdf');
+            $pdf->save($pdfUrl);
+
+            $pusher = new Pusher('0ef8d31fe818b7949d4b', 'd6d3d4062d73d899ced9', '1601138', [
+                'cluster' => 'eu',
+                'useTLS' => true
+            ]);
+            $pusher->trigger('pms', 'pdf-ready', ['url' => asset('storage/project_report.pdf')]);
+
+            return response()->json(['url' => asset('storage/project_report.pdf')]);
         }
     }

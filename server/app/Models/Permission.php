@@ -11,7 +11,7 @@ class Permission extends Model
     protected $guarded = false;
     protected $fillable = ['description'];
 
-    public function roles() {
-        return $this->belongsToMany(Role::class);
+    public function users() {
+        return $this->belongsToMany(User::class);
     }
 }

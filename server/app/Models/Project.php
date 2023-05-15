@@ -18,4 +18,8 @@ class Project extends Model
     public function dashboards() {
         return $this->hasMany(Dashboard::class);
     }
+
+    public function role() {
+        return $this->belongsTo(Role::class);
+    }
 }

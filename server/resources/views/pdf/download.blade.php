@@ -6,12 +6,12 @@
 </head>
 <body>
 <h1>My PDF-file about project</h1>
-<div>Name: {{ $project->name }}</div>
-<div>Description: {{ $project->descriptions }}</div>
+<div><h3>Name:</h3> {{ $project->name }}</div>
+<div><h3>Description:</h3> {{ $project->descriptions }}</div>
 <div>
-    Users on this project:
+    <h3>Users on this project:</h3>
     @foreach($project->users as $user)
-        {{ $user->name }} ( role:  {{ $user->role->name }} ),
+        {{ $user->name }} ( role:  {{ $user->role->name }} ) <br>
     @endforeach
 </div>
 </body>

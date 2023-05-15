@@ -10,13 +10,9 @@ class Role extends Model
     use HasFactory;
 
     protected $guarded = false;
-    protected $fillable = ['user_id', 'assigner_id', 'dashboard_id', 'name', 'description', 'status'];
+    protected $fillable = ['name', 'project_id'];
 
-    public function users() {
-        return $this->hasMany(User::class);
-    }
-
-    public function projects() {
-        return $this->hasMany(Project::class);
+    public function project() {
+        return $this->belongsTo(Project::class);
     }
 }

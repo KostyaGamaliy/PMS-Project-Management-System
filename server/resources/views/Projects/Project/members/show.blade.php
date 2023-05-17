@@ -16,8 +16,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col" class="text-center">Name</th>
-                        <th scope="col" class="text-center">Status</th>
-                        <th scope="col" class="text-center">Info</th>
+                        <th scope="col" class="text-center">Role</th>
                         <th scope="col" class="text-center">Edit</th>
                         <th scope="col" class="text-center">Delete</th>
                     </tr>
@@ -28,15 +27,11 @@
                         <tr>
                             <th scope="row">{{ $user->id }}</th>
                             <td class="text-center">{{ $user->name }}</td>
-                            @if($user->role)
-                                <td class="text-center">{{ $user->role->name }}</td>
-                            @else
-                                <td></td>
-                            @endif
-                            <td class="text-center">
-                                <a type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                   data-bs-target="#infoPeopleRole{{$user->id}}">INFO</a>
-                            </td>
+                            @foreach($project->roles as $projectRole)
+                                @if($projectRole->user_id == $user->id)
+                                    <td class="text-center">{{ $projectRole->name }}</td>
+                                @endif
+                            @endforeach
                             <td>
                                 <form method="GET" class="text-center"
                                       action="{{ route('admin.project.members.edit', ['project' => $project, 'user' => $user]) }}"
@@ -55,61 +50,6 @@
                                 @endif
                             </td>
                         </tr>
-
-                        <div class="modal fade" id="infoPeopleRole{{$user->id}}" tabindex="-1"
-                             aria-labelledby="infoPeopleRole{{$user->id}}"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Info</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <h4>Username:</h4>
-                                            </div>
-                                            <div class="col-8">
-                                                <h3>{{ $user->name }}</h3>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <h4>Role name:</h4>
-                                            </div>
-                                            <div class="col-8">
-                                                @if($user->role)
-                                                    <h3>{{ $user->role->name }}</h3>
-                                                @else
-                                                    <h3></h3>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <h4>Role permissions:</h4>
-                                            </div>
-                                            <div class="col-8">
-                                                @if($user->role)
-                                                    @foreach($user->role->permissions as $permission)
-                                                        <h3>{{ $permission->description }}</h3>
-                                                    @endforeach
-                                                @else
-                                                    <h3></h3>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     @endforeach
                     </tbody>
                 </table>

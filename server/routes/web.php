@@ -82,6 +82,7 @@ Auth::routes();
         Route::post('/permission/store' , [\App\Http\Controllers\PermissionController::class, 'store'])->name('permission.store');
         Route::post('/permission/destroy' , [\App\Http\Controllers\PermissionController::class, 'destroy'])->name('permission.destroy');
 
+        Route::get('/pdf-download/{project}', [\App\Http\Controllers\Api\ProjectController::class, 'downloadPDF'])->name('getPDF');
     });
 
     Route::post('updateLastModal', [\App\Http\Controllers\HomeController::class, 'updateLastModal'])->name('admin.updateLastModal');

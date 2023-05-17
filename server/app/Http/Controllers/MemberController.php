@@ -43,9 +43,16 @@ class MemberController extends Controller
         $rules = ['user_id' => 'required|int', 'role_id' => 'int'];
         $this->validate( $request, $rules);
 
-        DB::table('users')
-            ->where('id', $request->get('user_id'))
-            ->update(['role_id' => $request->get('role_id')]);
+//        $role = Role::find($request->get('role_id'));
+//        $data['name'] = $role->name;
+//        $data['project_id'] = $project->id;
+//        $data['user_id'] = $request->get('user_id');
+//
+//        Role::create($data);
+
+        DB::table('roles')
+            ->where('id', $request->get('role_id'))
+            ->update(['user_id' => $request->get('user_id'), 'project_id' => $project->id]);
 
         $project->users()->attach($request->get('user_id'));
 
@@ -66,14 +73,9 @@ class MemberController extends Controller
     public function edit(Project $project, User $user)
     {
         $users = $project->users()->get();
-        $roles = [];
+        $roles = $project->roles;
 
-        foreach ($users as $user) {
-            $role = $user->role()->first();
-            if ($role) {
-                $roles[] = $role;
-            }
-        }
+
 
         return view('Projects.Project.members.edit', compact('project', 'user', 'roles'));
     }
@@ -86,9 +88,9 @@ class MemberController extends Controller
         $rules = ['role_id' => 'int'];
         $this->validate( $request, $rules);
 
-        DB::table('users')
-            ->where('id', $request->get('user_id'))
-            ->update(['role_id' => $request->get('role_id')]);
+        DB::table('roles')
+            ->where('id', $request->get('role_id'))
+            ->update(['user_id' => $request->get('user_id')]);
 
         return redirect()->route('admin.project.members.index', ['project' => $project]);
     }
@@ -98,6 +100,13 @@ class MemberController extends Controller
      */
     public function destroy(Project $project, User $user)
     {
+        $roles = $project->roles;
+        foreach ($roles as $role) {
+            if ($role->user_id == $user->id) {
+//                $role->delete();
+            }
+        }
+
         $user->projects()->detach($project->id);
 
         return redirect()->route('admin.project.members.index', ['project' => $project]);

@@ -20,6 +20,12 @@
                         <p class="card-text text-truncate">{{ $project->descriptions }}</p>
                     </div>
                     <div class="d-flex justify-content-around pb-3">
+                        <form action="{{ route('admin.getPDF', ['project' => $project]) }}" method="POST">
+                            @csrf
+                            @method('GET')
+                            <button type="submit" class="btn btn-primary">Make PDF</button>
+                        </form>
+
                         <a type="button" class="btn btn-primary" data-bs-toggle="modal"
                            data-bs-target="#updateProjectModal{{ $project->id }}">Edit</a>
 

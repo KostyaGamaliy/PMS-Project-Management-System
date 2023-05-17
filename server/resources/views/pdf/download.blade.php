@@ -11,7 +11,12 @@
 <div>
     <h3>Users on this project:</h3>
     @foreach($project->users as $user)
-        {{ $user->name }} ( role:  {{ $user->role->name }} ) <br>
+        {{ $user->name }}
+        @foreach($project->roles as $role)
+            @if($role->user_id === $user->id)
+                ( role: {{$role->name}} ) <br>
+            @endif
+        @endforeach
     @endforeach
 </div>
 </body>

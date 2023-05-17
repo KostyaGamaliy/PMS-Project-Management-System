@@ -38,6 +38,7 @@ class RoleController extends Controller
 
         $data['name'] = $request->get('name');
         $data['project_id'] = $project->id;
+        $data['user_id'] = 0;
 
         $role = Role::create($data);
 

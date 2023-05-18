@@ -44,7 +44,7 @@
                             </td>
                             <td class="text-center">
                                 @if(Auth::user()->id !== $user->id)
-                                    <a type="button" class="btn btn-danger"
+                                    <a type="button" class="btn btn-danger" onclick="return confirm('Are you sure?')"
                                        href="{{ route('admin.project.members.destroy', ['project' => $project, 'user' => $user]) }}">Remove
                                         from the project</a>
                                 @endif

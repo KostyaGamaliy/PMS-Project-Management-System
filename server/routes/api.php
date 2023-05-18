@@ -32,31 +32,33 @@
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/register', [AuthController::class, 'register']);
 
-    Route::get('/projects', [ProjectController::class, 'index']);
-    Route::post('/projects/store', [ProjectController::class, 'store']);
-    Route::get('/projects/{project}', [ProjectController::class, 'show']);
-    Route::post('/projects/{project}/update', [ProjectController::class, 'update']);
-    Route::delete('/projects/{project}/destroy', [ProjectController::class, 'destroy']);
 
-    Route::get('/projects/{id}/tasks', [TaskController::class, 'index']);
-    Route::get('/projects/tasks/{id}', [TaskController::class, 'show']);
-    Route::post('/projects/tasks/store', [TaskController::class, 'store']);
-    Route::put('/projects/tasks/{id}/update', [TaskController::class, 'update']);
-    Route::delete('/projects/tasks/{id}/destroy', [TaskController::class, 'destroy']);
+        Route::get('/projects', [ProjectController::class, 'index']);
+        Route::post('/projects/store', [ProjectController::class, 'store']);
+        Route::get('/projects/{project}', [ProjectController::class, 'show']);
+        Route::post('/projects/{project}/update', [ProjectController::class, 'update']);
+        Route::delete('/projects/{project}/destroy', [ProjectController::class, 'destroy']);
 
-    Route::get('/projects/{id}/dashboards', [DashboardController::class, 'index']);
-    Route::get('/projects/{projectId}/dashboards/{dashboardId}', [DashboardController::class, 'show']);
-    Route::post('/projects/{id}/dashboards/store', [DashboardController::class, 'store']);
-    Route::put('/projects/dashboards/{id}/update', [DashboardController::class, 'update']);
-    Route::delete('/projects/dashboards/{id}/destroy', [DashboardController::class, 'destroy']);
+        Route::get('/projects/{id}/tasks', [TaskController::class, 'index']);
+        Route::get('/projects/tasks/{id}', [TaskController::class, 'show']);
+        Route::post('/projects/tasks/store', [TaskController::class, 'store']);
+        Route::put('/projects/tasks/{id}/update', [TaskController::class, 'update']);
+        Route::delete('/projects/tasks/{id}/destroy', [TaskController::class, 'destroy']);
 
-    Route::get('/roles', [RoleController::class, 'index']);
-    Route::get('/roles/{id}/get-permissions', [RoleController::class, 'getPermissions']);
+        Route::get('/projects/{id}/dashboards', [DashboardController::class, 'index']);
+        Route::get('/projects/{projectId}/dashboards/{dashboardId}', [DashboardController::class, 'show']);
+        Route::post('/projects/{id}/dashboards/store', [DashboardController::class, 'store']);
+        Route::put('/projects/dashboards/{id}/update', [DashboardController::class, 'update']);
+        Route::delete('/projects/dashboards/{id}/destroy', [DashboardController::class, 'destroy']);
 
-    Route::get('/projects/members/{memberId}', [MemberController::class, 'show']);
-    Route::get('/projects/{id}/members/create', [MemberController::class, 'create']);
-    Route::post('/projects/{id}/members/store', [MemberController::class, 'store']);
-    Route::put('/projects/members/{memberId}/update/{roleId}', [MemberController::class, 'update']);
-    Route::delete('/projects/{projectId}/members/{memberId}/destroy', [MemberController::class, 'destroy']);
+        Route::get('/roles', [RoleController::class, 'index']);
+        Route::get('/roles/{id}/get-permissions', [RoleController::class, 'getPermissions']);
 
-    Route::get('/pdf-download/{project}', [ProjectController::class, 'downloadPDF']);
+        Route::get('/projects/members/{memberId}', [MemberController::class, 'show']);
+        Route::get('/projects/{id}/members/create', [MemberController::class, 'create']);
+        Route::post('/projects/{id}/members/store', [MemberController::class, 'store']);
+        Route::put('/projects/members/{memberId}/update/{roleId}', [MemberController::class, 'update']);
+        Route::delete('/projects/{projectId}/members/{memberId}/destroy', [MemberController::class, 'destroy']);
+
+        Route::get('/pdf-download/{project}', [ProjectController::class, 'downloadPDF']);
+

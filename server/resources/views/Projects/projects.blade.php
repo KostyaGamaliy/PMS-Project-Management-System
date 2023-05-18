@@ -6,14 +6,16 @@
         <div class="search d-flex align-items-center">
             <input type="text" class="form-control me-2 flex-grow-1" placeholder="Have a question? Ask Now">
             <button class="btn btn-primary me-2">Search</button>
-            <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProjectModal">Create project</a>
+            <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProjectModal">Create
+                project</a>
         </div>
 
         <div class="container d-flex justify-content-evenly  flex-wrap ">
             @foreach($projects as $project)
                 <div class="card my-1" style="width: 18rem;">
                     <a href="{{ route('admin.projects.show', ['project' => $project]) }}">
-                        <img  src="{{ url('storage/' . ($project->preview_image ??  $default)) }}" class="card-img-top" style="width: 286px; height: 10rem" alt="none image">
+                        <img src="{{ url('storage/' . ($project->preview_image ??  $default)) }}" class="card-img-top"
+                             style="width: 286px; height: 10rem" alt="none image">
                     </a>
                     <div class="card-body">
                         <h5 class="card-title text-truncate">{{ $project->name }}</h5>
@@ -26,13 +28,17 @@
                             <button type="submit" class="btn btn-primary">Make PDF</button>
                         </form>
 
-                        <a type="button" class="btn btn-primary" data-bs-toggle="modal"
-                           data-bs-target="#updateProjectModal{{ $project->id }}">Edit</a>
+                        @can('update', $project)
+                            <a type="button" class="btn btn-primary" data-bs-toggle="modal"
+                               data-bs-target="#updateProjectModal{{ $project->id }}">Edit</a>
+                        @endcan
 
                         <form action="{{ route('admin.projects.destroy', ['project' => $project]) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                                Delete
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -128,6 +134,5 @@
             });
         });
     </script>
-
 
 @endsection

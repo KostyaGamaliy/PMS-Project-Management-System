@@ -13,6 +13,7 @@ class MemberController extends Controller
 {
     public function show($id) {
         $member = User::find($id);
+        $userRoles =
         $role = Role::findOrFail($member->role_id);
         $permissions = $role->permissions;
 
@@ -23,14 +24,7 @@ class MemberController extends Controller
     {
         $project = Project::find($id);
         $users = $project->users()->get();
-        $roles = [];
-
-        foreach ($users as $user) {
-            $role = $user->role()->first();
-            if ($role) {
-                $roles[] = $role;
-            }
-        }
+        $roles = $project->roles;
 
         return response()->json(['roles' => $roles]);
     }
@@ -60,9 +54,9 @@ class MemberController extends Controller
     }
 
     public function update($memberId, $roleId) {
-        DB::table('users')
-            ->where('id', $memberId)
-            ->update(['role_id' => $roleId]);
+        DB::table('roles')
+            ->where('id', $roleId)
+            ->update(['user_id' => $memberId]);
     }
 
     public function destroy($projectId, $memberId) {

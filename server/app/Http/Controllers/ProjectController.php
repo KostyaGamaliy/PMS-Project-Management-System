@@ -7,6 +7,7 @@
     use App\Jobs\SendCreateProjectJob;
     use App\Models\Dashboard;
     use App\Models\Role;
+    use Illuminate\Auth\Access\AuthorizationException;
     use Illuminate\Support\Facades\Auth;
     use App\Models\Project;
     use App\Models\User;
@@ -88,12 +89,10 @@
             //
         }
 
-        /**
-         * Update the specified resource in storage.
-         */
+
         public function update(UpdateProjectRequest $request, Project $project)
         {
-
+            $this->authorize('update', $project);
             $data = $request->except('_token', '_method');
 
             $fieldNames = $project->getAttributes();
@@ -117,7 +116,9 @@
          */
         public function destroy(string $id)
         {
+
             $projects = Project::find($id);
+            $this->authorize('delete', $projects);
 
             if ($projects->preview_image) {
                 Storage::disk('public')->delete($projects->preview_image);

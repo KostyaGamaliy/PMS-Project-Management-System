@@ -79,12 +79,14 @@
 
         public function show(Project $project)
         {
-            return new ProjectResource($project);
+            $user = auth()->user();
+            return response()->json(['user' => $user]);
         }
 
         public function update(UpdateProjectRequest $request, $id)
         {
             $project = Project::findOrFail($id);
+//            $this->authorize('update', $project);
 
             $data['name'] = request()->input('name');
             $data['descriptions'] = $request->input('descriptions');

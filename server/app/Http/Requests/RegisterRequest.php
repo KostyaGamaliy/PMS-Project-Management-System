@@ -22,11 +22,21 @@
 		public function rules(): array
 		{
 			return [
-				'name' => 'required|string',
-				'email' => 'required|email',
-				'password' => 'required',
-				'confirmPassword' => 'required',
+				'name' => 'sometimes|required|string|min:3|max:100',
+                'email' => 'sometimes|required|string|email:rfc,dns|unique:users,email,'.$this->id,
+				'password' => 'sometimes|required|min:8',
+				'confirmPassword' => 'sometimes|required|min:8',
 				'device_name' => 'required',
 			];
 		}
+        public function messages(): array
+        {
+            return [
+                'name.required' => 'Field name is required',
+                'name.min' => 'Field name must be at least 3 characters',
+                'email.required' => 'Field email is required',
+                'email.unique' => 'This email already exists',
+                'password.required' => 'Field password is required',
+            ];
+        }
 	}

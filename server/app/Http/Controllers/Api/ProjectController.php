@@ -86,7 +86,6 @@
         public function update(UpdateProjectRequest $request, $id)
         {
             $project = Project::findOrFail($id);
-//            $this->authorize('update', $project);
 
             $data['name'] = request()->input('name');
             $data['descriptions'] = $request->input('descriptions');

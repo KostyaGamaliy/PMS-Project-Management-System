@@ -32,6 +32,7 @@
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/register', [AuthController::class, 'register']);
 
+    Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::get('/projects', [ProjectController::class, 'index']);
         Route::post('/projects/store', [ProjectController::class, 'store']);
@@ -62,3 +63,4 @@
 
         Route::get('/pdf-download/{project}', [ProjectController::class, 'downloadPDF']);
 
+    });

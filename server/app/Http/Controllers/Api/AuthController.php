@@ -11,32 +11,33 @@
     use Illuminate\Support\Facades\Hash;
     use Illuminate\Validation\ValidationException;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Session;
 
     class AuthController extends Controller
     {
         public function login(LoginRequest $request)
         {
-            $deviceName = $request->device_name;
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                $user = $request->user();
+                $deviceName = $request->device_name;
 
-            $user = User::where('email', $request->email)->first();
+                Auth::login($user);
 
-            if (!$user || !Hash::check($request->password, $user->password)) {
-                throw ValidationException::withMessages([
-                    'password' => ['The provided credentials are incorrect.'],
-                ]);
+                $user->tokens()
+                    ->where('name', $deviceName)
+                    ->delete();
+                $token = $user->createToken($deviceName)->plainTextToken;
+
+                return [
+                    'token' => $token,
+                    'user' => new UserResource($user),
+                ];
+            } else {
+                $response = [
+                    'message' => 'Невірний емейл або пароль'
+                ];
+                return response()->json($response, 400);
             }
-
-            Auth::login($user);
-
-            $user->tokens()
-                ->where('name', $deviceName)
-                ->delete();
-            $token = $user->createToken($deviceName)->plainTextToken;
-
-            return [
-                'token' => $token,
-                'user' => new UserResource($user),
-            ];
         }
 
         public function register(RegisterRequest $request)
@@ -44,34 +45,28 @@
             $deviceName = $request->device_name;
 
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'password' => Hash::make($request->get('password')),
             ]);
 
-            $user->tokens()
-                ->where('name', $deviceName)
-                ->delete();
+            Auth::login($user);
+
             $token = $user->createToken($deviceName)->plainTextToken;
 
             return response([
                 'token' => $token,
                 'user' => new UserResource($user),
-            ])->withHeaders([
-                "Authorization" => "Bearer $token"
             ]);
         }
 
         public function logout(Request $request)
         {
-            $user = Auth::user();
-            if (!$user) {
-                return response()->json(['message' => 'Logged out']);
-            }
-            $user->tokens()->delete();
+            Session::flush();
             Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-            return response()->json(['message' => 'Logged out']);
+
+            return response()->json([
+                'message' => 'Successfully logged out'
+            ], 200);
         }
     }

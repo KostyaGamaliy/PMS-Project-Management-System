@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $guarded = false;
-    protected $fillable = ['name', 'descriptions', 'preview_image'];
+    protected $fillable = ['name', 'descriptions', 'preview_image', 'creator_id'];
     use HasFactory;
 
     public function users() {

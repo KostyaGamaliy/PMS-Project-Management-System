@@ -8,6 +8,7 @@
     use App\Http\Resources\ProjectResource;
     use App\Jobs\SendCreateProjectJob;
     use App\Models\Project;
+    use App\Models\Role;
     use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
@@ -56,6 +57,7 @@
 
             $data['name'] = $request->input('name');
             $data['descriptions'] = $request->input('descriptions');
+            $data['creator_id'] = $request->input('user_id');
 
             if ($request->hasFile('preview_image')) {
                 $image = $request->file('preview_image');
@@ -65,6 +67,11 @@
             }
 
             $project = Project::create($data);
+            Role::create([
+                'name' => 'Creator',
+                'project_id' => $project->id,
+                'user_id' => $request->input('user_id')
+            ]);
 
             $project->users()->attach($userId);
 

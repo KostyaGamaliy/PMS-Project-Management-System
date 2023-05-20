@@ -13,11 +13,9 @@ class MemberController extends Controller
 {
     public function show($id) {
         $member = User::find($id);
-        $userRoles =
         $role = Role::findOrFail($member->role_id);
-        $permissions = $role->permissions;
 
-        return response()->json(['member' => $member, 'role' => $role, 'permissions' => $permissions]);
+        return response()->json(['member' => $member, 'role' => $role]);
     }
 
     public function edit($id)
@@ -36,19 +34,18 @@ class MemberController extends Controller
 
         $roles = Role::all();
 
-        foreach ($roles as $role) {
-            $role->permissions = $role->permissions;
-        }
-
         return response()->json(['users' => $users, 'roles' => $roles]);
     }
 
     public function store($id) {
         $project = Project::findOrFail($id);
+        $role = Role::find(request()->input('role_id'));
 
-        DB::table('users')
-            ->where('id', request()->input('user_id'))
-            ->update(['role_id' => request()->input('role_id')]);
+        Role::create([
+            'name' => $role->name,
+            'project_id' => $project->id,
+            'user_id' => request()->input('user_id')
+        ]);
 
         $project->users()->attach(request()->input('user_id'));
     }
@@ -61,6 +58,8 @@ class MemberController extends Controller
 
     public function destroy($projectId, $memberId) {
         $user = User::find($memberId);
+        $role = Role::where('project_id', $projectId)->where('user_id', $memberId)->update(['user_id' => 0]);
+
         $user->projects()->detach($projectId);
     }
 }

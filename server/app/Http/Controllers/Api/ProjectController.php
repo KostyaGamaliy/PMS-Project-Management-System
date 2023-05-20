@@ -79,13 +79,14 @@
 
         public function show(Project $project)
         {
-            $user = auth()->user();
-            return response()->json(['user' => $user]);
+            $this->authorize('view', $project);
+            return new ProjectResource($project);
         }
 
         public function update(UpdateProjectRequest $request, $id)
         {
             $project = Project::findOrFail($id);
+            $this->authorize('update', $project);
 
             $data['name'] = request()->input('name');
             $data['descriptions'] = $request->input('descriptions');
@@ -105,6 +106,7 @@
         public function destroy(string $id)
         {
             $projects = Project::find($id);
+            $this->authorize('delete', $projects);
 
             if ($projects->preview_image !== "images/default-img-for-project.jpg") {
                 Storage::disk('public')->delete($projects->preview_image);

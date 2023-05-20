@@ -7,6 +7,10 @@ use App\Models\User;
 
 class ProjectPolicy
 {
+    public function view(User $user, Project $project) {
+        return $user->projects->contains($project);
+    }
+
     public function update(User $user, Project $project)
     {
         // Разрешить обновление проекта только если пользователь связан с ним через pivot таблицу

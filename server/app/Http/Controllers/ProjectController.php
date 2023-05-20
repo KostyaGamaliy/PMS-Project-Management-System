@@ -92,7 +92,6 @@
 
         public function update(UpdateProjectRequest $request, Project $project)
         {
-            $this->authorize('update', $project);
             $data = $request->except('_token', '_method');
 
             $fieldNames = $project->getAttributes();
@@ -116,9 +115,7 @@
          */
         public function destroy(string $id)
         {
-
             $projects = Project::find($id);
-            $this->authorize('delete', $projects);
 
             if ($projects->preview_image) {
                 Storage::disk('public')->delete($projects->preview_image);

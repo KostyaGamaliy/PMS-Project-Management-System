@@ -6,6 +6,7 @@
     use App\Http\Requests\StoreProjectRequest;
     use App\Http\Requests\UpdateProjectRequest;
     use App\Http\Resources\ProjectResource;
+    use App\Jobs\CreateProjectInfoJob;
     use App\Jobs\SendCreateProjectJob;
     use App\Models\Project;
     use App\Models\Role;
@@ -139,5 +140,12 @@
             $pusher->trigger('pms', 'pdf-ready', ['url' => asset('storage/project_report.pdf')]);
 
             return response()->json(['url' => asset('storage/project_report.pdf')]);
+        }
+
+        public function createProjectPdf(Request $request) {
+            $project = Project::where('id', $request->get('project_id'))->first();
+            CreateProjectInfoJob::dispatch($project);
+
+            return response(200);
         }
     }

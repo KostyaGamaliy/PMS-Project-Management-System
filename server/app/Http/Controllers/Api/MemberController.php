@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
-    public function show($id) {
+    public function show($projectId, $id) {
         $member = User::find($id);
-        $role = Role::findOrFail($member->role_id);
+        $role = Role::where('user_id', $id)->where('project_id', $projectId)->get();
 
         return response()->json(['member' => $member, 'role' => $role]);
     }
@@ -31,8 +31,8 @@ class MemberController extends Controller
         $users = User::whereDoesntHave('projects', function ($query) use ($projectId){
             $query->where('project_id', $projectId);
         })->get();
-
-        $roles = Role::all();
+        $project = Project::find($projectId);
+        $roles = $project->roles;
 
         return response()->json(['users' => $users, 'roles' => $roles]);
     }

@@ -47,12 +47,12 @@
         Route::get('/roles', [RoleController::class, 'index']);
         Route::get('/roles/{id}/get-permissions', [RoleController::class, 'getPermissions']);
 
-        Route::get('/projects/members/{memberId}', [MemberController::class, 'show']);
+        Route::get('/projects/{projectId}/members/{memberId}', [MemberController::class, 'show']);
         Route::get('/projects/{id}/members/create', [MemberController::class, 'create']);
         Route::post('/projects/{id}/members/store', [MemberController::class, 'store']);
         Route::put('/projects/members/{memberId}/update/{roleId}', [MemberController::class, 'update']);
         Route::delete('/projects/{projectId}/members/{memberId}/destroy', [MemberController::class, 'destroy']);
 
         Route::get('/pdf-download/{project}', [ProjectController::class, 'downloadPDF']);
-
+        Route::post('/projects/create_pdf', [ProjectController::class, 'createProjectPdf']);
     });

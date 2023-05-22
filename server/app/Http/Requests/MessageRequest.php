@@ -23,7 +23,7 @@ class MessageRequest extends FormRequest
     {
         return [
             'message' => 'required|string|min:1',
-            'receiver_id' => 'required|integer|exists:users,id',
+            'sender_id' => 'required|integer|exists:users,id',
         ];
     }
 }

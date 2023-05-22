@@ -21,7 +21,7 @@
 
 @foreach($project->dashboards as $dashboard)
     <h2>Dashboard: {{ $dashboard->name }}</h2>
-    @if(isset($dashboard->tasks))
+    @if(isset($dashboard->tasks) && count($dashboard->tasks) > 0)
         @foreach($dashboard->tasks as $task)
             <div>
                 <h3>Task name: {{$task->name}}</h3>
@@ -31,10 +31,9 @@
                         $task->load('user');
                         $startedDate = Carbon\Carbon::parse($task->created_at)->format('d-m-Y');
 
-						$role = \App\Models\Role::where('user_id', $task->user->id)->where('project_id', $project->id)->get();
+						$role = \App\Models\Role::where('user_id', $task->user->id)->where('project_id', $project->id)->first();
                     @endphp
-                    <h3>When the task was created: {{ $startedDate }} for {{ $task->user->name }} ({{ $role->name }}
-                        )</h3>
+                    <h3>When the task was created: {{ $startedDate }} for {{ $task->user->name }} ({{ $role->name }})</h3>
                     <br>
                 @endif
                 @if(strtolower($task->status) === 'done')
@@ -42,10 +41,9 @@
                         $task->load('user');
                         $finishedDate = Carbon\Carbon::parse($task->updated_at)->format('d-m-Y');
 
-						$role = \App\Models\Role::where('user_id', $task->user->id)->where('project_id', $project->id)->get();
+						$role = \App\Models\Role::where('user_id', $task->user->id)->where('project_id', $project->id)->first();
                     @endphp
-                    <h3>When the task was finished: {{ $finishedDate }} by {{ $task->user->name }} ({{ $role->name }}
-                        )</h3>
+                    <h3>When the task was finished: {{ $finishedDate }} by {{ $task->user->name }} ({{ $role->name }})</h3>
                     <br>
                 @endif
             </div>

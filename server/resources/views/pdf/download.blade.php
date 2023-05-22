@@ -5,7 +5,7 @@
     <title>About project</title>
 </head>
 <body>
-<h1>My PDF-file about project</h1>
+<h1>My PDF-file about project 2121</h1>
 <div><h3>Name:</h3> {{ $project->name }}</div>
 <div><h3>Description:</h3> {{ $project->descriptions }}</div>
 <div>

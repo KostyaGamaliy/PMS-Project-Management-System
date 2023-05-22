@@ -113,13 +113,15 @@
 
         public function destroy(string $id)
         {
-            $projects = Project::find($id);
-            $this->authorize('delete', $projects);
+            $project = Project::find($id);
+            $this->authorize('delete', $project);
 
-            if ($projects->preview_image !== "images/default-img-for-project.jpg") {
-                Storage::disk('public')->delete($projects->preview_image);
+            if ($project->preview_image !== "images/default-img-for-project.jpg") {
+                Storage::disk('public')->delete($project->preview_image);
             }
-            $projects->delete();
+
+            $project->roles()->delete();
+            $project->delete();
         }
 
         public function downloadPDF(Project $project)

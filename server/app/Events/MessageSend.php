@@ -17,16 +17,16 @@ class MessageSend
 
     public $message;
     public $sender;
-    public $receiver_id;
+    public $sender_id;
     public $created_at;
     /**
      * Create a new event instance.
      */
     public function __construct(Message $message)
     {
-        $this->receiver_id = $message->receiver_id;
         $this->message = $message->message;
         $this->sender = $message->sender->name;
+        $this->sender_id = $message->sender_id;
         $this->created_at = $message->created_at->format('d.m.Y');
     }
 
@@ -35,10 +35,13 @@ class MessageSend
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
+        return new Channel('chat.'.$this->sender_id);
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'new-message';
     }
 }

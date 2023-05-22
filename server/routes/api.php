@@ -1,5 +1,6 @@
 <?php
 
+    use App\Http\Controllers\Api\ChatController;
     use App\Http\Controllers\Api\DashboardController;
     use App\Http\Controllers\Api\MemberController;
     use App\Http\Controllers\Api\RoleController;
@@ -56,4 +57,8 @@
 
         Route::get('/pdf-download/{project}', [ProjectController::class, 'downloadPDF']);
         Route::post('/projects/create_pdf', [ProjectController::class, 'createProjectPdf']);
+
+        Route::get('/chat/{project_id}/{user_id}', [ChatController::class, 'index']);
+        Route::post('/chat/send', [ChatController::class, 'send']);
     });
+

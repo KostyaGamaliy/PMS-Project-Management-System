@@ -24,6 +24,10 @@ class Project extends Model
         return $this->hasMany(Role::class);
     }
 
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
+
     public function getPdfPath(): Attribute
     {
         return Attribute::make(

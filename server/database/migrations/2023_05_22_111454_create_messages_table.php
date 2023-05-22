@@ -14,15 +14,11 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('sender_id')->nullable()->constrained('users')->cascadeOnUpdate()
-                ->cascadeOnDelete();
-            $table->index('sender_id', 'sender_idx');
+            $table->foreignId('sender_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('receiver_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('project_id')->nullable()->constrained('projects')->onDelete('cascade');
 
-            $table->foreignId('receiver_id')->nullable()->constrained('users')->cascadeOnUpdate()
-                ->cascadeOnDelete();
-            $table->index('receiver_id', 'receiver_idx');
-
-            $table->text('message');
+            $table->string('message');
             $table->timestamps();
         });
     }

@@ -19,6 +19,12 @@ class RoleController extends Controller
         Role::create($request->all());
     }
 
+    public function destroy($id) {
+        $role = Role::find($id);
+
+        $role->delete();
+    }
+
     public function getPermissions($id) {
         $role = Role::find($id);
         $permissions = $role->permissions;

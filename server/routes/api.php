@@ -48,6 +48,7 @@
         Route::get('/roles', [RoleController::class, 'index']);
         Route::get('/roles/{id}/get-permissions', [RoleController::class, 'getPermissions']);
         Route::post('/roles/store', [RoleController::class, 'store']);
+        Route::delete('/roles/{id}/destroy', [RoleController::class, 'destroy']);
 
         Route::get('/projects/{id}/members/create', [MemberController::class, 'create']);
         Route::get('/projects/{id}/members/create', [MemberController::class, 'create']);

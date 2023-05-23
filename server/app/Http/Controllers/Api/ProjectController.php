@@ -31,7 +31,9 @@
 
             $projects = $user->projects();
 
-            if ($isDateSort === 'true') {
+            if ($isDateSort === 'dateAsc') {
+                $projects->orderBy('created_at', 'asc');
+            } else if($isDateSort === 'dateDesc') {
                 $projects->orderBy('created_at', 'desc');
             }
 

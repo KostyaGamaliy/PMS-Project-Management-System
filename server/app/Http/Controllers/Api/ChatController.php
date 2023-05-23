@@ -6,6 +6,7 @@ use App\Events\MessageSend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageRequest;
 use App\Http\Resources\ChatResource;
+use App\Models\Project;
 use App\Repositories\Interfaces\ChatRepositoryInterface;
 
 class ChatController extends Controller
@@ -27,6 +28,9 @@ class ChatController extends Controller
 
     public function index($project_id, $user_id)
     {
+        $project = Project::find($project_id);
+        $this->authorize('view', $project);
+
         $messages = $this->repository->list($user_id, $project_id);
         return ChatResource::collection($messages);
     }

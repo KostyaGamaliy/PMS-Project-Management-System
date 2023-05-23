@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Message;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\User;
@@ -63,7 +64,8 @@ class MemberController extends Controller
 
     public function destroy($projectId, $memberId) {
         $user = User::find($memberId);
-        $role = Role::where('project_id', $projectId)->where('user_id', $memberId)->update(['user_id' => 0]);
+        Message::where('project_id', $projectId)->where('sender_id', $memberId)->delete();
+        Role::where('project_id', $projectId)->where('user_id', $memberId)->update(['user_id' => 0]);
 
         $user->projects()->detach($projectId);
     }

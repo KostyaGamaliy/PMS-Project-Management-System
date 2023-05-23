@@ -50,7 +50,12 @@ class MemberController extends Controller
         $project->users()->attach(request()->input('user_id'));
     }
 
-    public function update($memberId, $roleId) {
+    public function update($memberId, $roleId, $projectId) {
+        DB::table('roles')
+            ->where('project_id', $projectId)
+            ->where('user_id', $memberId)
+            ->update(['user_id' => 0]);
+
         DB::table('roles')
             ->where('id', $roleId)
             ->update(['user_id' => $memberId]);

@@ -15,6 +15,10 @@ class RoleController extends Controller
         return response()->json(['roles' => $roles]);
     }
 
+    public function store(Request $request) {
+        Role::create($request->all());
+    }
+
     public function getPermissions($id) {
         $role = Role::find($id);
         $permissions = $role->permissions;

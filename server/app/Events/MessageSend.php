@@ -21,12 +21,13 @@ class MessageSend implements ShouldBroadcastNow
     public $sender_id;
     public $project_id;
     public $created_at;
+    public $id;
     /**
      * Create a new event instance.
      */
     public function __construct(Message $message)
     {
-
+        $this->id = $message->id;
         $this->message = $message->message;
         $this->sender = $message->sender->name;
         $this->project_id = $message->project_id;

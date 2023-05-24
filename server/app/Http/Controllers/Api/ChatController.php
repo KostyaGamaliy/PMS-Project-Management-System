@@ -44,7 +44,7 @@ class ChatController extends Controller
         $message->fill($req)->save();
 //        $message = $this->repository->send($request->validated());
         //репозиторій виклик, який повертає модель повідомлення
-        broadcast(new MessageSend($message));
+        $br = broadcast(new MessageSend($message));
         // повертаю ресурс
         return new ChatResource($message);
     }

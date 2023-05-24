@@ -18,8 +18,7 @@
 // });
 
     Broadcast::channel('chat.{id}', function ($user, $id) {
-        $userIn = Auth::user();
-        return (int) $userIn->id === (int) $id;
+        return $user->projects->contains($id);
     });
 
     Broadcast::channel('App.Models.User.{id}', function ($user, $id) {

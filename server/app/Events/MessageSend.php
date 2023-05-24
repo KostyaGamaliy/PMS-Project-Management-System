@@ -8,24 +8,28 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSend
+class MessageSend implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
     public $sender;
     public $sender_id;
+    public $project_id;
     public $created_at;
     /**
      * Create a new event instance.
      */
     public function __construct(Message $message)
     {
+
         $this->message = $message->message;
         $this->sender = $message->sender->name;
+        $this->project_id = $message->project_id;
         $this->sender_id = $message->sender_id;
         $this->created_at = $message->created_at->format('d.m.Y');
     }
@@ -37,7 +41,7 @@ class MessageSend
      */
     public function broadcastOn()
     {
-        return new Channel('chat.'.$this->sender_id);
+        return new Channel('chat.'.$this->project_id);
     }
 
     public function broadcastAs(): string

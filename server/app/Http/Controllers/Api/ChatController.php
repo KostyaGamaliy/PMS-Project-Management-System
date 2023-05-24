@@ -6,6 +6,7 @@ use App\Events\MessageSend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageRequest;
 use App\Http\Resources\ChatResource;
+use App\Models\Message;
 use App\Models\Project;
 use App\Repositories\Interfaces\ChatRepositoryInterface;
 
@@ -37,7 +38,11 @@ class ChatController extends Controller
 
     public function send(MessageRequest $request)
     {
-        $message = $this->repository->send($request->validated());
+        $req = $request->validated();
+
+        $message = new Message;
+        $message->fill($req)->save();
+//        $message = $this->repository->send($request->validated());
         //репозиторій виклик, який повертає модель повідомлення
         broadcast(new MessageSend($message));
         // повертаю ресурс

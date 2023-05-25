@@ -29,6 +29,8 @@
             $perPage = $request->query('perPage') ?? 10;
             $user = User::find($request->query('userId'));
 
+            $user1 = new User();
+
             $projects = $user->projects();
 
             if ($isDateSort === 'dateAsc') {

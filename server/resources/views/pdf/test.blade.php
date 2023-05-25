@@ -41,9 +41,16 @@
                         $task->load('user');
                         $finishedDate = Carbon\Carbon::parse($task->updated_at)->format('d-m-Y');
 
-						$role = \App\Models\Role::where('user_id', $task->user->id)->where('project_id', $project->id)->first();
+                        if ($task->user && $role = \App\Models\Role::where('user_id', $task->user->id)->where('project_id', $project->id)->first()) {
+                            $userName = $task->user->name;
+                            $roleName = $role->name;
+                        } else {
+                            $userName = 'Unknown User';
+                            $roleName = 'Unknown Role';
+                        }
                     @endphp
-                    <h3>When the task was finished: {{ $finishedDate }} by {{ $task->user->name }} ({{ $role->name }})</h3>
+
+                    <h3>When the task was finished: {{ $finishedDate }} by {{ $userName }} ({{ $roleName }})</h3>
                     <br>
                 @endif
             </div>

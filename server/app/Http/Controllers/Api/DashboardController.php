@@ -19,6 +19,9 @@ class DashboardController extends Controller
     }
 
     public function show($projectId, $dashboardId) {
+        $project = Project::find($projectId);
+        $this->authorize('view', $project);
+
         $dashboard = Dashboard::find($dashboardId);
         return new DashboardResource($dashboard);
     }
